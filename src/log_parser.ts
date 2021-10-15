@@ -24,6 +24,7 @@ export function getLogEntries(filePath: string) {
 }
 
 export const _tddLogParser = {
+  isValidLog,
   toLogEntry,
   getCommitFrom,
   getHeaderFrom,
