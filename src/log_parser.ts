@@ -1,20 +1,20 @@
 /*
   * 1. Read GIT log from file
 
-  * 2. Map log file to Log Array with commit hash, header, and message
+  * 2. Map log file to Log Array with commit hash, header, subject, and message
   *   a. Commit hash is first 7 chars
-  *   b. Header is in format: "header(subject):"
-  *     1. If commit is headerless, then we extract the first word
-  *        as the header.
-  *     2. Apply special syntax if subject exist: "header/subject"
-  *     3. Remove colon
+  *   b. Action notation: "action(subject):" or "action:"
+  *     1. If commit is not using Action notation, then extract first
+  * .      word as the header.
+  *     2. If subject does not exist, then set null
+  *     3. Remove colon and toLowerCase() the action
   *   c. Only extract main message; ignore body text.
 */
 import { readFileSync } from "fs";
+import { pipe, toLower } from 'ramda';
 
 
-type LogEntry = [hash: string, header: string, message: string];
-
+type LogEntry = [header: string, subject: string|null, message: string, commit: string];
 
 
 export function getLogEntries(filePath: string) {
@@ -37,24 +37,41 @@ function isValidLog(logFile: string) {
 
 function toLogEntry(logLine: string) {
   return [
-    getCommitFrom(logLine),
     getHeaderFrom(logLine),
+    getSubjectFrom(logLine),
     getMessageFrom(logLine),
+    getCommitFrom(logLine),
   ] as LogEntry;
 }
 
 function getHeaderFrom(logLine: string) {
-  const header = logLine.split(' ')[1];
-  return separateSubjectFrom(header) ?? header.replace(':', '');
+  return pipe(
+    getAction,
+    stripColon,
+    toLower
+  )(logLine);
 }
 
-function separateSubjectFrom(header: string) {
-  if (header.includes('(')) {
-    const [head, subj] = header.split('(');
-    const cleanSubj    = subj.substring(0, subj.length - 2);
-    return `${head}/${cleanSubj}`;
+function getAction(logLine: string) {
+  const action = getActionNotation(logLine);
+  if (action.includes('(')) return action.split('(')[0];
+  return action;
+}
+
+function getSubjectFrom(logLine: string) {
+  const action = getActionNotation(logLine);
+  if (action.includes('(')) {
+    return action.split('(')[1].replace('):', '');
   }
   return null;
+}
+
+function getActionNotation(logLine: string) {
+  return logLine.split(' ')[1];
+}
+
+function stripColon(str: string) {
+  return str.replace(':', '');
 }
 
 function getCommitFrom(logLine: string) {
