@@ -14,7 +14,7 @@ import { readFileSync } from "fs";
 import { pipe, toLower } from 'ramda';
 
 
-type LogEntry = [header: string, subject: string|null, message: string, commit: string];
+export type LogEntry = [header: string, subject: string|null, message: string, commit: string];
 
 
 export function getLogEntries(filePath: string) {
