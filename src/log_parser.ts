@@ -19,21 +19,15 @@ type LogEntry = [header: string, subject: string|null, message: string, commit: 
 
 export function getLogEntries(filePath: string) {
   const logFile = readFileSync(filePath, 'utf-8').trim();
-  if (!isValidLog(logFile)) throw Error('Missing dev or stable branch merge text');
   return logFile.split('\n').map(toLogEntry);
 }
 
 export const _tddLogParser = {
-  isValidLog,
   toLogEntry,
   getCommitFrom,
   getHeaderFrom,
   getMessageFrom,
 };
-
-function isValidLog(logFile: string) {
-  return logFile.includes("Merge branch 'dev' into stable");
-}
 
 function toLogEntry(logLine: string) {
   return [
