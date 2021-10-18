@@ -12,13 +12,20 @@
 */
 import { readFileSync } from "fs";
 import { pipe, toLower } from 'ramda';
+import chalk from 'chalk';
+
 
 
 export type LogEntry = [header: string, subject: string|null, message: string, commit: string];
 
 
+
+const l = console.log;
+
+
 export function getLogEntries(filePath: string) {
   const logFile = readFileSync(filePath, 'utf-8').trim();
+  if (!isValidLogFile(logFile)) return [];
   return logFile.split('\n').map(toLogEntry);
 }
 
@@ -28,6 +35,21 @@ export const _tddLogParser = {
   getHeaderFrom,
   getMessageFrom,
 };
+
+
+function isValidLogFile(logFile: string) {
+  const file = logFile.trim();
+  if (!file) {
+    l(`\n${chalk.red('Error: file is empty')}\n`);
+    return false;
+  }
+  if (file.split(' ')[0].length > 7) {
+    l(`\n${chalk.red('Error: invalid log file')}`);
+    l(`\n${chalk.yellow("NOTE:")} Make sure you're creating the log with ${chalk.green('git log --oneline')}\n\n`);
+    return false;
+  }
+  return true;
+}
 
 function toLogEntry(logLine: string) {
   return [
