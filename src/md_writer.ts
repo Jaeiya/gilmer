@@ -36,6 +36,7 @@ type LogLayout = { [key: ActionName]: Action }
 
 
 export function writeLogs(logs: LogEntry[]) {
+  if (!logs.length) return;
   return pipe(
     addLogs(logs),
     mapLogs(renderCommitAsURL),
