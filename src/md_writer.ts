@@ -113,7 +113,7 @@ function buildLayoutStr(title: string) {
 
 function appendTitle(title: string) {
   return (str: string) =>
-    `# ${capitalize(title)}(${getDateTimeNow()})\n${str}`
+    `# ${capitalize(title)} (${getDateTimeNow()})\n${str}`
   ;
 }
 
