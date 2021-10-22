@@ -110,7 +110,7 @@ function buildLayoutStr(layout: LogLayout) {
 }
 
 function appendHeader(actionName: string) {
-  return (str: string) => `${str}\n\n# ${actionName}\n`;
+  return (str: string) => `${str}\n\n## ${actionName}\n`;
 }
 
 function appendLogsWithSubjects(action: Action) {
