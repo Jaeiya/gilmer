@@ -110,7 +110,8 @@ function buildLayoutStr(layout: LogLayout) {
 }
 
 function appendHeader(actionName: string) {
-  return (str: string) => `${str}\n\n## ${actionName}\n`;
+  const capitalizedAction = capitalize(actionName);
+  return (str: string) => `${str}\n\n## ${capitalizedAction}\n`;
 }
 
 function appendLogsWithSubjects(action: Action) {
@@ -130,6 +131,10 @@ function appendLogs(action: Action|LogObj) {
       (pv, log) => `${pv}${log[0]} (${log[1]})\n`, str
     )
   ;
+}
+
+function capitalize(str: string) {
+  return str[0].toUpperCase() + str.substring(1);
 }
 
 function saveLayout(layoutStr: string) {
