@@ -35,13 +35,13 @@ type LogLayout = { [key: ActionName]: Action }
 
 
 
-export function writeLogs(logs: LogEntry[]) {
+export function writeLogs(logs: LogEntry[], title: string) {
   if (!logs.length) return;
   return pipe(
     addLogs(logs),
     mapLogs(renderCommitAsURL),
     mapLogs(renderMsgWithBullet),
-    buildLayoutStr,
+    buildLayoutStr(title),
     saveLayout,
   )({} as LogLayout);
 }
@@ -98,15 +98,23 @@ function renderMsgWithBullet(log: ActionLog) {
   return [`* ${message}`, commit] as ActionLog;
 }
 
-function buildLayoutStr(layout: LogLayout) {
-  const toLayoutStr = (pv: string, key: string) =>
-     pv + pipe(
-      appendHeader(key),
-      appendLogs(layout[key]),
-      appendLogsWithSubjects(layout[key])
-    )('')
+function buildLayoutStr(title: string) {
+  return (layout: LogLayout) => {
+    const toLayoutStr = (pv: string, key: string) =>
+       pv + pipe(
+        appendHeader(key),
+        appendLogs(layout[key]),
+        appendLogsWithSubjects(layout[key])
+      )('')
+    ;
+    return appendTitle(title)(Object.keys(layout).reduce(toLayoutStr, ''));
+  };
+}
+
+function appendTitle(title: string) {
+  return (str: string) =>
+    `# ${capitalize(title)}(${getDateTimeNow()})\n${str}`
   ;
-  return Object.keys(layout).reduce(toLayoutStr, '');
 }
 
 function appendHeader(actionName: string) {
@@ -135,6 +143,13 @@ function appendLogs(action: Action|LogObj) {
 
 function capitalize(str: string) {
   return str[0].toUpperCase() + str.substring(1);
+}
+
+function getDateTimeNow() {
+  const d = new Date();
+  const dateStr = d.toLocaleDateString();
+  const timeStr = d.toLocaleTimeString();
+  return `${dateStr}@${timeStr}`;
 }
 
 function saveLayout(layoutStr: string) {
