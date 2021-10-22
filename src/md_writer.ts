@@ -113,7 +113,7 @@ function buildLayoutStr(title: string) {
 
 function appendTitle(title: string) {
   return (str: string) =>
-    `# ${capitalize(title)} (${getDateTimeNow()})\n${str}`
+    `# ${capitalize(title)} (${getDateNow()})\n${str}`
   ;
 }
 
@@ -145,11 +145,10 @@ function capitalize(str: string) {
   return str[0].toUpperCase() + str.substring(1);
 }
 
-function getDateTimeNow() {
+function getDateNow() {
   const d = new Date();
   const dateStr = d.toLocaleDateString();
-  const timeStr = d.toLocaleTimeString();
-  return `${dateStr}@${timeStr}`;
+  return `${dateStr}`;
 }
 
 function saveLayout(layoutStr: string) {
