@@ -43,7 +43,8 @@ function isValidLogFile(logFile: string) {
     l(`\n${chalk.red('Error: file is empty')}\n`);
     return false;
   }
-  if (file.split(' ')[0].length > 7) {
+  const firstLineLength = file.split(' ')[0].length;
+  if (firstLineLength > 7 || firstLineLength < 7) {
     l(`\n${chalk.red('Error: invalid log file')}`);
     l(`\n${chalk.yellow("NOTE:")} Make sure you're creating the log with ${chalk.green('git log --oneline')}\n\n`);
     return false;
