@@ -153,7 +153,7 @@ function getDateTimeNow() {
 }
 
 function saveLayout(layoutStr: string) {
-  writeFileSync('./md_test.md', layoutStr);
+  writeFileSync(`${config.saveTo}/md_test.md`, layoutStr);
 }
 
 

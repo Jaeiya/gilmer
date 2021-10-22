@@ -1,3 +1,4 @@
 {
-  "url": "https://github.com/Everything-Explained/web-cms-build"
+  "url": "https://github.com/Everything-Explained/web-client",
+  "saveTo": "../docs"
 }
