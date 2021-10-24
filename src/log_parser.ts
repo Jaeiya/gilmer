@@ -26,7 +26,7 @@ const l = console.log;
 export function getLogEntries(filePath: string) {
   const logFile = readFileSync(filePath, 'utf-8').trim();
   if (!isValidLogFile(logFile)) return [];
-  return logFile.split('\n').map(toLogEntry);
+  return logFile.split('\n').reverse().map(toLogEntry);
 }
 
 export const _tddLogParser = {
