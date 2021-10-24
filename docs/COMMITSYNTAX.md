@@ -74,6 +74,7 @@ If a commit requires greater context, then an *action* can be supplied with a *s
 - **fix** - Any kind of fixes, whether issue-related or code-related.
 - **chg** - A change that does not fall under any other **allowed** actions. This is an ambiguous action, so only use it if there is **no other relevant option**.
 - **clean** - Anything that pertains to clean code practices: refactoring, re-structuring, renaming, reducing/improving logic, whitespace changes, etc...
+- **docs** - When updating, clarifying, adding, or fixing documentation.
 - **chore** - Something that must be done out of necessity: Updating/fixing/adding/removing deps, moving/deleting files, update version, etc...
 - **css** - Cascading Style Sheet changes that are not fixes or new features.
 
