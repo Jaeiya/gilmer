@@ -20,19 +20,18 @@ import smap from 'source-map-support';
 smap.install();
 
 
-type ActionName = string;
 type ActionLog  = [message: string, commit: string];
-type LogObj     = { logs: ActionLog[] };
 
-type ActionSubject = { [key: string]: LogObj }
+type ActionSubject = {
+  name: string;
+  logs: ActionLog[];
+ }
 
 interface Action {
-  subjects: ActionSubject;
+  name: string;
+  subjects: ActionSubject[];
   logs: ActionLog[]
 }
-
-type LogLayout = { [key: ActionName]: Action }
-
 
 
 export function writeLogs(logs: LogEntry[], title: string) {
@@ -43,48 +42,65 @@ export function writeLogs(logs: LogEntry[], title: string) {
     mapLogs(renderMsgWithBullet),
     buildLayoutStr(title),
     saveLayout,
-  )({} as LogLayout);
+  )([] as Action[]);
 }
 
 
 function addLogs(logs: LogEntry[]) {
-  return (layout: LogLayout) => {
+  return (actions: Action[]) => {
     for (const log of logs) {
       const [header,,message,commit] = log;
-      layout[header] = layout[header] ?? { subjects: {}, logs: []} as Action;
-      if (isAddingSubjectLogs(log)(layout)) continue;
-      layout[header].logs.push([message, commit]);
+      let action = actions.find(a => a.name == header);
+      if (!action) {
+        action = createAction(header);
+        actions.push(action);
+      }
+      if (isAddingSubjectLogs(log)(action)) continue;
+      action.logs.push([message, commit]);
     }
-    return layout;
+    return actions;
   };
 }
 
 function isAddingSubjectLogs(log: LogEntry) {
-  return (layout: LogLayout) => {
-    const [header, subject, message, commit] = log;
+  return (action: Action) => {
+    const [,subject, message, commit] = log;
     if (!subject) return false;
 
-    const actionLog = [message, commit] as ActionLog;
-    const item      = layout[header];
+    const actionLog   = [message, commit] as ActionLog;
+    let actionSubject = action.subjects.find(s => s.name == subject);
 
-    if (!item.subjects[subject])
-      item.subjects[subject] = { logs: [] }
-    ;
-    item.subjects[subject].logs.push(actionLog);
+    if (!actionSubject) {
+      actionSubject = createSubject(subject);
+      action.subjects.push(actionSubject);
+    }
+    actionSubject.logs.push(actionLog);
     return true;
   };
 }
 
+function createAction(name: string) {
+  return {
+    name,
+    subjects: [],
+    logs: []
+  } as Action;
+}
+
+function createSubject(name: string) {
+  return {
+    name,
+    logs: []
+  } as ActionSubject;
+}
+
 function mapLogs(mapFn: (log: ActionLog) => ActionLog) {
-  return (layout: LogLayout) => {
-    for (const key in layout) {
-      const item = layout[key];
-      for (const key in item.subjects) {
-        item.subjects[key].logs = item.subjects[key].logs.map(mapFn);
-      }
-      item.logs = item.logs.map(mapFn);
+  return (actions: Action[]) => {
+    for (const action of actions) {
+      action.subjects.forEach(s => s.logs = s.logs.map(mapFn));
+      action.logs = action.logs.map(mapFn);
     }
-    return layout;
+    return actions;
   };
 }
 
@@ -99,15 +115,15 @@ function renderMsgWithBullet(log: ActionLog) {
 }
 
 function buildLayoutStr(title: string) {
-  return (layout: LogLayout) => {
-    const toLayoutStr = (pv: string, key: string) =>
+  return (actions: Action[]) => {
+    const toLayoutStr = (pv: string, action: Action) =>
        pv + pipe(
-        appendHeader(key),
-        appendLogs(layout[key]),
-        appendLogsWithSubjects(layout[key])
+        appendHeader(action),
+        appendLogs(action),
+        appendLogsWithSubjects(action)
       )('')
     ;
-    return appendTitle(title)(Object.keys(layout).reduce(toLayoutStr, ''));
+    return appendTitle(title)(actions.reduce(toLayoutStr, ''));
   };
 }
 
@@ -117,23 +133,24 @@ function appendTitle(title: string) {
   ;
 }
 
-function appendHeader(actionName: string) {
-  const capitalizedAction = capitalize(actionName);
-  return (str: string) => `${str}\n\n## ${capitalizedAction}\n`;
+function appendHeader(action: Action) {
+  const actionHeader = capitalize(action.name);
+  return (str: string) => `${str}\n\n## ${actionHeader}\n`;
 }
 
 function appendLogsWithSubjects(action: Action) {
   return (str: string) => {
     let layoutStr = str;
-    for (const subject in action.subjects) {
-      const logStr = appendLogs(action.subjects[subject])('');
-      layoutStr += `\n**${subject}**\n${logStr}`;
+    for (const subject of action.subjects) {
+      const logStr = appendLogs(subject)('');
+      layoutStr += `\n**${subject.name}**\n${logStr}`;
     }
     return layoutStr;
   };
 }
 
-function appendLogs(action: Action|LogObj) {
+
+function appendLogs(action: Action|ActionSubject) {
   return (str: string) =>
     action.logs.reduce(
       (pv, log) => `${pv}${log[0]} (${log[1]})\n`, str
