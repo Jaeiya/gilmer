@@ -19,9 +19,11 @@ import { CommitAction, CommitActionSubject, Log } from "./action_parser";
 
 
 
-export function getPrettyLog(actions: CommitAction[], title: string) {
-  if (!actions.length) throw Error('Missing actions array!');
-  return appendTitle(title)(actions.reduce(toPrettyLog, ''));
+export function getPrettyLog(title: string) {
+  return (actions: CommitAction[]) => {
+    if (!actions.length) throw Error('Missing actions array!');
+    return appendTitle(title)(actions.reduce(toPrettyLog, ''));
+  };
 }
 
 function appendTitle(title: string) {
