@@ -16,8 +16,8 @@ import { writeFileSync } from "fs";
 import config from '../config.json';
 import {  pipe } from "ramda";
 import smap from 'source-map-support';
-import { CommitAction, CommitActionSubject, Log } from "./commit_action_parser";
 smap.install();
+import { CommitAction, CommitActionSubject, Log } from "./action_parser";
 
 
 
