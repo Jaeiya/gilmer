@@ -67,6 +67,8 @@ function appendActionName(action: CommitAction) {
   return (str: string) => `${str}\n\n## ${capitalize(action.name)}\n`;
 }
 
+function capitalize(str: string) { return str[0].toUpperCase() + str.substring(1); }
+
 function appendLogs(action: CommitAction|CommitActionSubject) {
   return (str: string) =>
     action.logs.reduce(
@@ -85,8 +87,6 @@ function appendLogsWithSubjects(action: CommitAction) {
     return layoutStr;
   };
 }
-
-function capitalize(str: string) { return str[0].toUpperCase() + str.substring(1); }
 
 function getDateNow() {
   const d = new Date();
