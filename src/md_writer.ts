@@ -13,89 +13,28 @@
   *   b. Log Subjects should be bolded: **subject**
 */
 import { writeFileSync } from "fs";
-import { LogMetadata } from "./log_parser";
 import config from '../config.json';
 import {  pipe } from "ramda";
 import smap from 'source-map-support';
+import { CommitAction, CommitActionSubject, Log } from "./commit_action_parser";
 smap.install();
 
 
-type ActionLog  = [message: string, commit: string];
-
-type ActionSubject = {
-  name: string;
-  logs: ActionLog[];
- }
-
-interface Action {
-  name: string;
-  subjects: ActionSubject[];
-  logs: ActionLog[]
-}
 
 
-export function writeLogs(logs: LogMetadata[], title: string) {
-  if (!logs.length) return;
+export function writeLogs(actions: CommitAction[], title: string) {
+  if (!actions.length) return;
   return pipe(
-    addLogs(logs),
-    mapLogs(renderCommitAsURL),
+    mapLogs(renderHashAsURL),
     mapLogs(renderMsgWithBullet),
     buildLayoutStr(title),
     saveLayout,
-  )([] as Action[]);
+  )(actions);
 }
 
 
-function addLogs(logs: LogMetadata[]) {
-  return (actions: Action[]) => {
-    for (const log of logs) {
-      const [header,,message,commit] = log;
-      let action = actions.find(a => a.name == header);
-      if (!action) {
-        action = createAction(header);
-        actions.push(action);
-      }
-      if (isAddingSubjectLogs(log)(action)) continue;
-      action.logs.push([message, commit]);
-    }
-    return actions;
-  };
-}
-
-function isAddingSubjectLogs(log: LogMetadata) {
-  return (action: Action) => {
-    const [,subject, message, commit] = log;
-    if (!subject) return false;
-
-    const actionLog   = [message, commit] as ActionLog;
-    let actionSubject = action.subjects.find(s => s.name == subject);
-
-    if (!actionSubject) {
-      actionSubject = createSubject(subject);
-      action.subjects.push(actionSubject);
-    }
-    actionSubject.logs.push(actionLog);
-    return true;
-  };
-}
-
-function createAction(name: string) {
-  return {
-    name,
-    subjects: [],
-    logs: []
-  } as Action;
-}
-
-function createSubject(name: string) {
-  return {
-    name,
-    logs: []
-  } as ActionSubject;
-}
-
-function mapLogs(mapFn: (log: ActionLog) => ActionLog) {
-  return (actions: Action[]) => {
+function mapLogs(mapFn: (log: Log) => Log) {
+  return (actions: CommitAction[]) => {
     for (const action of actions) {
       action.subjects.forEach(s => s.logs = s.logs.map(mapFn));
       action.logs = action.logs.map(mapFn);
@@ -104,19 +43,22 @@ function mapLogs(mapFn: (log: ActionLog) => ActionLog) {
   };
 }
 
-function renderCommitAsURL(log: ActionLog) {
-  const [message, commit] = log;
-  return [message, `[${commit}](${config.url}/commit/${commit})`] as ActionLog;
+function renderHashAsURL(log: Log) {
+  const {msg, hash} = log;
+  return {
+    msg,
+    hash: `[${hash}](${config.url}/commit/${hash})`
+  } as Log;
 }
 
-function renderMsgWithBullet(log: ActionLog) {
-  const [message, commit] = log;
-  return [`* ${message}`, commit] as ActionLog;
+function renderMsgWithBullet(log: Log) {
+  const {msg, hash} = log;
+  return { msg: `* ${msg}`, hash};
 }
 
 function buildLayoutStr(title: string) {
-  return (actions: Action[]) => {
-    const toLayoutStr = (pv: string, action: Action) =>
+  return (actions: CommitAction[]) => {
+    const toLayoutStr = (pv: string, action: CommitAction) =>
        pv + pipe(
         appendHeader(action),
         appendLogs(action),
@@ -133,12 +75,12 @@ function appendTitle(title: string) {
   ;
 }
 
-function appendHeader(action: Action) {
+function appendHeader(action: CommitAction) {
   const actionHeader = capitalize(action.name);
   return (str: string) => `${str}\n\n## ${actionHeader}\n`;
 }
 
-function appendLogsWithSubjects(action: Action) {
+function appendLogsWithSubjects(action: CommitAction) {
   return (str: string) => {
     let layoutStr = str;
     for (const subject of action.subjects) {
@@ -150,10 +92,10 @@ function appendLogsWithSubjects(action: Action) {
 }
 
 
-function appendLogs(action: Action|ActionSubject) {
+function appendLogs(action: CommitAction|CommitActionSubject) {
   return (str: string) =>
     action.logs.reduce(
-      (pv, log) => `${pv}${log[0]} (${log[1]})\n`, str
+      (pv, log) => `${pv}${log.msg} (${log.hash})\n`, str
     )
   ;
 }
