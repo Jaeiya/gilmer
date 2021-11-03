@@ -14,7 +14,7 @@ pipe(
   () => getLogsMetadata('../test.txt'),
   getCommmitActionListFrom,
   getPrettyLog(title),
-  (prettyLog: string) => writeFileSync(`${config.saveTo}/md_test`, prettyLog)
+  (prettyLog: string) => writeFileSync(`${config.saveTo}/md_test.md`, prettyLog)
 )();
 
 
