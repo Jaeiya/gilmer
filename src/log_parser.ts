@@ -16,21 +16,21 @@ import chalk from 'chalk';
 
 
 
-export type LogEntry = [header: string, subject: string|null, message: string, commit: string];
+export type LogMetadata = [header: string, subject: string|null, message: string, commit: string];
 
 
 
 const l = console.log;
 
 
-export function getLogEntries(filePath: string) {
+export function getLogsMetadata(filePath: string) {
   const logFile = readFileSync(filePath, 'utf-8').trim();
   if (!isValidLogFile(logFile)) return [];
-  return logFile.split('\n').reverse().map(toLogEntry);
+  return logFile.split('\n').reverse().map(toLogMetadata);
 }
 
 export const _tddLogParser = {
-  toLogEntry,
+  toLogMetadata,
   getCommitFrom,
   getHeaderFrom,
   getMessageFrom,
@@ -52,13 +52,13 @@ function isValidLogFile(logFile: string) {
   return true;
 }
 
-function toLogEntry(logLine: string) {
+function toLogMetadata(logLine: string) {
   return [
     getHeaderFrom(logLine),
     getSubjectFrom(logLine),
     getMessageFrom(logLine),
     getCommitFrom(logLine),
-  ] as LogEntry;
+  ] as LogMetadata;
 }
 
 function getHeaderFrom(logLine: string) {

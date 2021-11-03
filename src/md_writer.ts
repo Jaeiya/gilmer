@@ -13,7 +13,7 @@
   *   b. Log Subjects should be bolded: **subject**
 */
 import { writeFileSync } from "fs";
-import { LogEntry } from "./log_parser";
+import { LogMetadata } from "./log_parser";
 import config from '../config.json';
 import {  pipe } from "ramda";
 import smap from 'source-map-support';
@@ -34,7 +34,7 @@ interface Action {
 }
 
 
-export function writeLogs(logs: LogEntry[], title: string) {
+export function writeLogs(logs: LogMetadata[], title: string) {
   if (!logs.length) return;
   return pipe(
     addLogs(logs),
@@ -46,7 +46,7 @@ export function writeLogs(logs: LogEntry[], title: string) {
 }
 
 
-function addLogs(logs: LogEntry[]) {
+function addLogs(logs: LogMetadata[]) {
   return (actions: Action[]) => {
     for (const log of logs) {
       const [header,,message,commit] = log;
@@ -62,7 +62,7 @@ function addLogs(logs: LogEntry[]) {
   };
 }
 
-function isAddingSubjectLogs(log: LogEntry) {
+function isAddingSubjectLogs(log: LogMetadata) {
   return (action: Action) => {
     const [,subject, message, commit] = log;
     if (!subject) return false;
