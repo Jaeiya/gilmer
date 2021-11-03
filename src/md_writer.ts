@@ -12,61 +12,16 @@
   *   a. Use Action Name as header: # Action
   *   b. Log Subjects should be bolded: **subject**
 */
-import { writeFileSync } from "fs";
 import config from '../config.json';
-import {  pipe } from "ramda";
-import smap from 'source-map-support';
-smap.install();
+import { pipe } from "ramda";
 import { CommitAction, CommitActionSubject, Log } from "./action_parser";
 
 
 
 
-export function writeLogs(actions: CommitAction[], title: string) {
-  if (!actions.length) return;
-  return pipe(
-    mapLogs(renderHashAsURL),
-    mapLogs(renderMsgWithBullet),
-    buildLayoutStr(title),
-    saveLayout,
-  )(actions);
-}
-
-
-function mapLogs(mapFn: (log: Log) => Log) {
-  return (actions: CommitAction[]) => {
-    for (const action of actions) {
-      action.subjects.forEach(s => s.logs = s.logs.map(mapFn));
-      action.logs = action.logs.map(mapFn);
-    }
-    return actions;
-  };
-}
-
-function renderHashAsURL(log: Log) {
-  const {msg, hash} = log;
-  return {
-    msg,
-    hash: `[${hash}](${config.url}/commit/${hash})`
-  } as Log;
-}
-
-function renderMsgWithBullet(log: Log) {
-  const {msg, hash} = log;
-  return { msg: `* ${msg}`, hash};
-}
-
-function buildLayoutStr(title: string) {
-  return (actions: CommitAction[]) => {
-    const toLayoutStr = (pv: string, action: CommitAction) =>
-       pv + pipe(
-        appendHeader(action),
-        appendLogs(action),
-        appendLogsWithSubjects(action)
-      )('')
-    ;
-    return appendTitle(title)(actions.reduce(toLayoutStr, ''));
-  };
+export function getPrettyLog(actions: CommitAction[], title: string) {
+  if (!actions.length) throw Error('Missing actions array!');
+  return appendTitle(title)(actions.reduce(toPrettyLog, ''));
 }
 
 function appendTitle(title: string) {
@@ -75,9 +30,47 @@ function appendTitle(title: string) {
   ;
 }
 
-function appendHeader(action: CommitAction) {
-  const actionHeader = capitalize(action.name);
-  return (str: string) => `${str}\n\n## ${actionHeader}\n`;
+function toPrettyLog(pv: string, action: CommitAction) {
+  mapLogs(applyLogMarkdown)(action);
+  return toActionString(pv, action);
+}
+
+function mapLogs(mapFn: (log: Log) => Log) {
+  return (action: CommitAction) => {
+    action.subjects.forEach(s => s.logs = s.logs.map(mapFn));
+    action.logs = action.logs.map(mapFn);
+  };
+}
+
+function applyLogMarkdown(log: Log) {
+  const {msg, hash} = log;
+  return {
+    msg: toMdBullet(msg),
+    hash: toMdURL(hash)
+  } as Log;
+}
+
+function toMdBullet(str: string) { return `* ${str}`; }
+function toMdURL(str: string)    { return `[${str}](${config.url}/commit/${str})`; }
+
+function toActionString(pv: string, action: CommitAction) {
+  return pv + pipe(
+    appendActionName(action),
+    appendLogs(action),
+    appendLogsWithSubjects(action)
+  )('');
+}
+
+function appendActionName(action: CommitAction) {
+  return (str: string) => `${str}\n\n## ${capitalize(action.name)}\n`;
+}
+
+function appendLogs(action: CommitAction|CommitActionSubject) {
+  return (str: string) =>
+    action.logs.reduce(
+      (pv, log) => `${pv}${log.msg} (${log.hash})\n`, str
+    )
+  ;
 }
 
 function appendLogsWithSubjects(action: CommitAction) {
@@ -91,18 +84,7 @@ function appendLogsWithSubjects(action: CommitAction) {
   };
 }
 
-
-function appendLogs(action: CommitAction|CommitActionSubject) {
-  return (str: string) =>
-    action.logs.reduce(
-      (pv, log) => `${pv}${log.msg} (${log.hash})\n`, str
-    )
-  ;
-}
-
-function capitalize(str: string) {
-  return str[0].toUpperCase() + str.substring(1);
-}
+function capitalize(str: string) { return str[0].toUpperCase() + str.substring(1); }
 
 function getDateNow() {
   const d = new Date();
@@ -110,9 +92,7 @@ function getDateNow() {
   return `${dateStr}`;
 }
 
-function saveLayout(layoutStr: string) {
-  writeFileSync(`${config.saveTo}/md_test.md`, layoutStr);
-}
+
 
 
 
