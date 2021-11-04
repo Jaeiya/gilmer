@@ -19,6 +19,7 @@ export type LogMetadata = [
   subject : string|null,
   message : string,
   body    : string|null,
+  date    : string,
   hash    : string,
 ];
 
@@ -48,13 +49,14 @@ function isValidLog(rawLog: string) {
 
 function toLogMetadata(logLine: string) {
   const commitParts = logLine.trim().split('|');
-  const [hash, commitMsg, body] = commitParts;
+  const [hash, isoDate, commitMsg, body] = commitParts;
 
   return [
     toAction(commitMsg).replace(':', '').toLowerCase(),
     toSubject(commitMsg),
     toMsgText(commitMsg),
     body || null,
+    new Date(isoDate).toLocaleDateString().replace(/\//g, '-'),
     hash
   ] as LogMetadata;
 }

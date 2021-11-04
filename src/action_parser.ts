@@ -3,7 +3,12 @@ import { LogMetadata } from "./log_parser";
 
 
 
-export type Log = { msg: string, body: string|null, hash: string };
+export type Log = {
+  msg  : string,
+  body : string|null,
+  date : string;
+  hash : string
+};
 
 export type CommitAction = {
   name     : string;
@@ -25,14 +30,14 @@ export function getCommmitActionListFrom(logDataList: LogMetadata[]) {
 function toCommitActionListFrom(logDataList: LogMetadata[]) {
   return (actions: CommitAction[]) => {
     for (const logData of logDataList) {
-      const [actionName,,msg,body,hash] = logData;
+      const [actionName,,msg,body,date,hash] = logData;
       let action = actions.find(a => a.name == actionName);
       if (!action) {
         action = { name: actionName, subjects: [], logs: [] };
         actions.push(action);
       }
       if (tryAddSubjectLogs(logData)(action)) continue;
-      action.logs.push({ msg, body, hash, });
+      action.logs.push({ msg, body, date, hash, });
     }
     return actions;
   };
@@ -41,14 +46,14 @@ function toCommitActionListFrom(logDataList: LogMetadata[]) {
 
 function tryAddSubjectLogs(logData: LogMetadata) {
   return (action: CommitAction) => {
-    const [,subjectName, msg, body, hash] = logData;
+    const [,subjectName, msg, body, date, hash] = logData;
     if (!subjectName) return false;
     let subject = action.subjects.find(s => s.name == subjectName);
     if (!subject) {
       subject = { name: subjectName, logs: [] };
       action.subjects.push(subject);
     }
-    subject.logs.push({msg, body, hash});
+    subject.logs.push({msg, body, date, hash});
     return true;
   };
 }
