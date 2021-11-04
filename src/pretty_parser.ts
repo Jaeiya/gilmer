@@ -18,6 +18,7 @@ import config from '../config.json';
 import { pipe } from "ramda";
 import { CommitAction, CommitActionSubject, Log } from "./action_parser";
 import { sortActions } from './sort_actions';
+import { capitalize, toBlockquote, toMdBullet, toMdCode, toMdURL } from './utilities';
 
 
 
@@ -54,14 +55,9 @@ function applyLogMarkdown(log: Log) {
     msg: toMdBullet(msg),
     body: body && toBlockquote(body),
     date: toMdCode(date),
-    hash: toMdURL(hash)
+    hash: toMdURL(hash, config.url)
   } as Log;
 }
-
-function toMdBullet(str: string)   { return `* ${str}`; }
-function toBlockquote(str: string) { return `> ${str}`; }
-function toMdURL(str: string)      { return `[${str}](${config.url}/commit/${str})`; }
-function toMdCode(str: string)     { return `\`${str}\``; }
 
 function toActionString(pv: string, action: CommitAction) {
   return pv + pipe(
@@ -75,8 +71,6 @@ function toActionString(pv: string, action: CommitAction) {
 function appendActionName(action: CommitAction) {
   return (str: string) => `${str}\n\n## ${capitalize(action.name)}\n`;
 }
-
-function capitalize(str: string) { return str[0].toUpperCase() + str.substring(1); }
 
 function appendLogs(action: CommitAction|CommitActionSubject) {
   return (str: string) => action.logs.reduce(toLogStr, str);
