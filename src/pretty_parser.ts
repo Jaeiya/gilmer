@@ -67,7 +67,8 @@ function toActionString(pv: string, action: CommitAction) {
   return pv + pipe(
     appendActionName(action),
     appendLogs(action),
-    appendLogsWithSubjects(action)
+    appendLogsWithSubjects(action),
+    appendHorizontalLine,
   )('');
 }
 
@@ -97,6 +98,10 @@ function appendLogsWithSubjects(action: CommitAction) {
     }
     return layoutStr;
   };
+}
+
+function appendHorizontalLine(str: string) {
+  return `${str}\n---\n`;
 }
 
 function getDateNow() {
