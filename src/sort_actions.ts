@@ -6,9 +6,8 @@ const sortOrder: SortPriority[] = [
   ['feat'  , 1],
   ['chg'   , 2],
   ['fix'   , 3],
-  ['clean' , 4],
-  ['docs'  , 5],
-  ['chore' , 6]
+  ['docs'  , 4],
+  ['chore' , 10]
 ];
 
 
@@ -22,5 +21,5 @@ export function sortActions(actions: CommitAction[]) {
 
 
 function findOrder(name: string) {
-  return sortOrder.find(v => v[0] == name) ?? ['', 0];
+  return sortOrder.find(v => v[0] == name) ?? ['', sortOrder.length + 1];
 }
