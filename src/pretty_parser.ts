@@ -12,9 +12,12 @@
   *   a. Use Action Name as header: # Action
   *   b. Log Subjects should be bolded: **subject**
 */
+
+
 import config from '../config.json';
 import { pipe } from "ramda";
 import { CommitAction, CommitActionSubject, Log } from "./action_parser";
+import { sortActions } from './sort_actions';
 
 
 
@@ -22,6 +25,7 @@ import { CommitAction, CommitActionSubject, Log } from "./action_parser";
 export function getPrettyLog(title: string) {
   return (actions: CommitAction[]) => {
     if (!actions.length) throw Error('Missing actions array!');
+    sortActions(actions);
     return appendTitle(title)(actions.reduce(toPrettyLog, ''));
   };
 }
