@@ -53,7 +53,7 @@ function applyLogMarkdown(log: Log) {
   return {
     msg: toMdBullet(msg),
     body: body && toBlockquote(body),
-    date: toMdItalics(date),
+    date: toMdCode(date),
     hash: toMdURL(hash)
   } as Log;
 }
@@ -61,7 +61,7 @@ function applyLogMarkdown(log: Log) {
 function toMdBullet(str: string)   { return `* ${str}`; }
 function toBlockquote(str: string) { return `> ${str}`; }
 function toMdURL(str: string)      { return `[${str}](${config.url}/commit/${str})`; }
-function toMdItalics(str: string)  { return `*${str}*`; }
+function toMdCode(str: string)     { return `\`${str}\``; }
 
 function toActionString(pv: string, action: CommitAction) {
   return pv + pipe(
@@ -82,10 +82,10 @@ function appendLogs(action: CommitAction|CommitActionSubject) {
 }
 
 function toLogStr(pv: string, log: Log) {
-  const date = `(${log.date})`;
   const hash = `(${log.hash})`;
+  const date = `${log.date}`;
   const body = `${log.body ? `${log.body}` : ''}`;
-  return `${pv}${log.msg} ${date} ${hash}\n${body}\n`;
+  return `${pv}${log.msg} ${hash} ${date}\n${body}\n`;
 }
 
 function appendLogsWithSubjects(action: CommitAction) {
