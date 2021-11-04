@@ -32,12 +32,6 @@ export function getLogsMetadata(rawLog: string) {
   return logLines.reverse().map(toLogMetadata);
 }
 
-// export const _tddLogParser = {
-//   toLogMetadata,
-//   getCommitFrom,
-//   getMessageFrom,
-// };
-
 
 function isValidLog(rawLog: string) {
   if (!rawLog.trim()) {
@@ -62,13 +56,13 @@ function toLogMetadata(logLine: string) {
 }
 
 function toAction(commitMsg: string) {
-  const action = toActionNotation(commitMsg);
+  const action = commitMsg.split(' ')[0];
   if (action.includes('(')) return action.split('(')[0];
   return action;
 }
 
 function toSubject(commitMsg: string) {
-  const action = toActionNotation(commitMsg);
+  const action = commitMsg.split(' ')[0];
   if (action.includes('):')) {
     return action.split('(')[1].replace('):', '');
   }
@@ -80,10 +74,6 @@ function toMsgText(commitMsg: string) {
     return commitMsg.split(':', 2)[1].trim();
   }
   return commitMsg;
-}
-
-function toActionNotation(msg: string) {
-  return msg.split(' ')[0];
 }
 
 
