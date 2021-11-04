@@ -1,5 +1,5 @@
 # Commit Syntax
-This is an opinionated guide on how to construct a commit message for this repository. The rules outlined in this guide are non-optional and must be upheld in order to maintain consistency in the code-base. As you'll learn, this also reduces the mental overhead when reading commit messages.
+This is an opinionated guide on how to construct a commit message for this repository. The rules outlined in this guide are **not** optional and must be upheld in order to maintain consistency in the code-base. As you'll learn, this also reduces the mental overhead when reading commit messages.
 
 ## Commit Strategies
 When browsing other repositories, you'll notice many commit strategies that other Devs are using; not all strategies, however, are created equal. We're going to go over the predominate `3` that I've personally noticed when browsing some top repositories on GitHub.
@@ -40,7 +40,7 @@ Last but not least, when commit messages can be read almost like change-logs, we
 ## Why?
 If we don't unify the way a commit is structured, then we run the risk of "*too many cooks in the kitchen*". Each person is capable of describing a change they've made to the code-base, but they will use their own reasoning about how to do so; this can create confusion.
 
-Having a commit paradigm, already in place, will allow contributors to immediately start creating consistent and sensible commits.
+Having a commit paradigm already in place, will allow contributors to immediately start creating consistent and sensible commits.
 
 ## Syntax
 ```
@@ -53,7 +53,7 @@ action: description
 action(subject): description
 ```
 **Action**
-Should be one of the **allowed** actions listed at the bottom of this document. It's a single word which lets the reader know what's happening: *fix*, *clean*, *feat*, etc... An action like *feat* may not look like an action, but it's referring to the action: *created new feature*. Obviously, it would be silly to type out that whole line, so we just say *feat* for short; it's not the only word which implies an action.
+Should be one of the **allowed** actions listed at the bottom of this document. It's a single word which lets the reader know what's happening: *fix*, *clean*, *feat*, etc... An action like *feat* may not look like an action, but it's referring to the action: *created new feature or functionality*. Obviously, it would be silly to type out that whole line, so we just say *feat* for short and it's not the only word which implies an action.
 
 **Subject**
 Should be the specific context that the **action** is being applied to. This is usually a *file* or *class* name, but can also be a prolific *concept* or *function* within the code-base.
@@ -63,17 +63,19 @@ Should be the specific context that the **action** is being applied to. This is 
 // Bad
 fix: changed color from yellow to red
 
-// Good
+// Okay
 fix: emphasize error text with red
 fix: error text should be red
+
+// Excellent
 fix: not enough emphasis on error text
 ```
 As you can see from the array of "good" examples, that context is more important than what the code is actually doing. The **why** for a commit should always take precedence over what the code inside a commit is actually doing, unless what a commit is doing, is the context itself.
 
-If we examine all 3 *good* examples, you'll notice that the last one not only fulfills the reason for the fix (emphasizing error text) but also **why** it's a *fix*. From the first 2 *good* examples, it's kind of hard to tell that they are *fixes*, versus just changes to CSS.
+If we examine all 3 acceptable examples, you'll notice that the *Excellent* one not only fulfills the reason for the fix (emphasizing error text) but also **why** it's a *fix*. From the 2 *Okay* examples, it's kind of hard to tell that they are *fixes*, versus just changes to CSS.
 
 - `emphasize error text with red` - Was that the original intent? Is the implication that we're fixing it to fit its original intent, or was the original intent not accurate enough, so we're modifying it further? Is this a fix or a CSS modification? Even though this is a clear and concise description, it can leave us asking too many questions.
-- `error text should be red` - Now we know that the text should've been **red** all along, but with a lingering thought of "was it supposed to be *red* all along, or did they just decide that it should've been, after testing?" If this lingering thought is accurate, then it's not actually a fix, it's a CSS modification.
+- `error text should be red` - Now we know that the text probably should've been **red** all along, but with a lingering thought of "was it supposed to be *red*, or did they just decide that it should've been, after testing?" If this lingering thought is accurate, then it's not actually a fix, it's a CSS modification.
 - `not enough emphasis on error text` - With this commit, not only do we know that we're emphasizing text, but also that a lack of emphasis is a problem that wasn't solved with the original intent of the code. The reader may not know that we emphasized it with Red, but that doesn't matter because emphasis is the problem being solved. If we want to see what *"emphasis"* looks like, we can just look at the **code-diff**.
 
 So even if a commit message follows the syntax and basic guidelines, it still may not fully convey its intent. Now obviously, if a commit is marked as a *fix*, we can safely assume that's the intent, but making sure a commit is created with as little ambiguity as possible, is the best case scenario. If I'm only left with one question after reading a commit, it's a good commit.
@@ -113,10 +115,12 @@ When updating, clarifying, adding, or fixing documentation. This action should a
 Something that must be done out of necessity: Updating/fixing/adding/removing deps, moving/deleting files, update version, etc...
 
 **Cascading Style Sheets:** `css`
-Cascading Style Sheet changes, but only when CSS is the only code being changed, otherwise it's probably best to use a different action.
+Cascading Style Sheet changes, but only when CSS is the only code being changed, otherwise it's probably best to use a different action. Again, as stated earlier under `fix`, if you fix a CSS-only bug, it should go under the `css` action.
 
 ### **Deprecated Actions**
 - `add` - now falls under `feat`
 - `update/upd` - now falls under `chg`
 - `rename/refactor` - now falls under `clean`
 - `remove` - now falls under `clean` or `chore`
+
+> Note that any changes at all made to dependencies will still fall under a chore, whether *removed*, *added*, or *updated*.
