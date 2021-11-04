@@ -1,15 +1,4 @@
-/*
-  * 1. Read GIT log from file
 
-  * 2. Map log file to Log Array with commit hash, header, subject, and message
-  *   a. Commit hash is first 7 chars
-  *   b. Action notation: "action(subject):" or "action:"
-  *     1. If commit is not using Action notation, then extract first
-  * .      word as the header.
-  *     2. If subject does not exist, then set null
-  *     3. Remove colon and toLowerCase() the action
-  *   c. Only extract main message; ignore body text.
-*/
 import chalk from 'chalk';
 
 

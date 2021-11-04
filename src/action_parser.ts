@@ -1,5 +1,5 @@
-import { LogMetadata } from "./log_parser";
 
+import { LogMetadata } from "./log_parser";
 
 
 
@@ -22,6 +22,7 @@ export type CommitActionSubject = {
 }
 
 
+
 export function getCommmitActionListFrom(logDataList: LogMetadata[]) {
   return toCommitActionListFrom(logDataList)([]);
 }
@@ -42,7 +43,6 @@ function toCommitActionListFrom(logDataList: LogMetadata[]) {
     return actions;
   };
 }
-
 
 function tryAddSubjectLogs(logData: LogMetadata) {
   return (action: CommitAction) => {

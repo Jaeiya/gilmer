@@ -1,6 +1,11 @@
+
 import { CommitAction } from "./action_parser";
 
+
+
 type SortPriority = [name: string, priority: number];
+
+
 
 const sortOrder: SortPriority[] = [
   ['feat'  , 1],
@@ -18,7 +23,6 @@ export function sortActions(actions: CommitAction[]) {
     return a1[1] - b1[1];
   });
 }
-
 
 function findPriority(name: string) {
   return sortOrder.find(v => v[0] == name) ?? ['', sortOrder.length + 1];

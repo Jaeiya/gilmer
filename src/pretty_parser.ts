@@ -1,25 +1,9 @@
-/*
-  * 1. Map Log Array to MD Layout
-  *   a. Organize all Logs under their respective actions (e.g. add, fix, chore, etc...)
-  *   b. Entry data should be: [subject, message, commit]
-  *     1. Non-null subjects should be grouped together
-  * 2. Render Markdown
-  *   a. Action should be a header
-  *   b. Subject should be bolded
-  *     1. Messages should be bullet-pointed
-  *   c. Logs without a subject should be bulleted directly under Action header
-  * 3. Write markdown to file using MD layout object
-  *   a. Use Action Name as header: # Action
-  *   b. Log Subjects should be bolded: **subject**
-*/
-
 
 import config from '../config.json';
 import { pipe } from "ramda";
 import { CommitAction, CommitActionSubject, Log } from "./action_parser";
 import { sortActions } from './sort_actions';
 import { capitalize, toBlockquote, toMdBullet, toMdCode, toMdURL } from './utilities';
-
 
 
 
@@ -30,6 +14,7 @@ export function getPrettyLog(title: string) {
     return appendTitle(title)(actions.reduce(toPrettyLog, ''));
   };
 }
+
 
 function appendTitle(title: string) {
   return (str: string) =>
