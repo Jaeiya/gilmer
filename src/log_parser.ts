@@ -10,94 +10,83 @@
   *     3. Remove colon and toLowerCase() the action
   *   c. Only extract main message; ignore body text.
 */
-import { readFileSync } from "fs";
-import { pipe, toLower } from 'ramda';
 import chalk from 'chalk';
 
 
 
-export type LogMetadata = [header: string, subject: string|null, message: string, commit: string];
+export type LogMetadata = [
+  action  : string,
+  subject : string|null,
+  message : string,
+  body    : string|null,
+  hash    : string,
+];
 
 
 
-const l = console.log;
-
-
-export function getLogsMetadata(filePath: string) {
-  const logFile = readFileSync(filePath, 'utf-8').trim();
-  if (!isValidLogFile(logFile)) return [];
-  return logFile.split('\n').reverse().map(toLogMetadata);
+export function getLogsMetadata(rawLog: string) {
+  if (!isValidLog(rawLog)) [] as LogMetadata[];
+  const logLines = rawLog.split('^@^');
+  logLines.pop(); // Last element is always empty
+  return logLines.reverse().map(toLogMetadata);
 }
 
-export const _tddLogParser = {
-  toLogMetadata,
-  getCommitFrom,
-  getHeaderFrom,
-  getMessageFrom,
-};
+// export const _tddLogParser = {
+//   toLogMetadata,
+//   getCommitFrom,
+//   getMessageFrom,
+// };
 
 
-function isValidLogFile(logFile: string) {
-  const file = logFile.trim();
-  if (!file) {
-    l(`\n${chalk.red('Error: file is empty')}\n`);
-    return false;
-  }
-  const firstLineLength = file.split(' ')[0].length;
-  if (firstLineLength > 7 || firstLineLength < 7) {
-    l(`\n${chalk.red('Error: invalid log file')}`);
-    l(`\n${chalk.yellow("NOTE:")} Make sure you're creating the log with ${chalk.green('git log --oneline')}\n\n`);
+function isValidLog(rawLog: string) {
+  if (!rawLog.trim()) {
+    console.log(`\n${chalk.red('Error: file is empty')}\n`);
     return false;
   }
   return true;
 }
 
 function toLogMetadata(logLine: string) {
+  const commitParts = logLine.trim().split('|');
+  const [hash, commitMsg] = commitParts;
+
   return [
-    getHeaderFrom(logLine),
-    getSubjectFrom(logLine),
-    getMessageFrom(logLine),
-    getCommitFrom(logLine),
+    toAction(commitMsg).replace(':', '').toLowerCase(),
+    toSubject(commitMsg),
+    toMsgText(commitMsg),
+    toBody(commitParts),
+    hash
   ] as LogMetadata;
 }
 
-function getHeaderFrom(logLine: string) {
-  return pipe(
-    getAction,
-    stripColon,
-    toLower
-  )(logLine);
-}
-
-function getAction(logLine: string) {
-  const action = getActionNotation(logLine);
+function toAction(commitMsg: string) {
+  const action = toActionNotation(commitMsg);
   if (action.includes('(')) return action.split('(')[0];
   return action;
 }
 
-function getSubjectFrom(logLine: string) {
-  const action = getActionNotation(logLine);
-  if (action.includes('(')) {
+function toSubject(commitMsg: string) {
+  const action = toActionNotation(commitMsg);
+  if (action.includes('):')) {
     return action.split('(')[1].replace('):', '');
   }
   return null;
 }
 
-function getActionNotation(logLine: string) {
-  return logLine.split(' ')[1];
+function toMsgText(commitMsg: string) {
+  if (commitMsg.includes(':')) {
+    return commitMsg.split(':', 2)[1].trim();
+  }
+  return commitMsg;
 }
 
-function stripColon(str: string) {
-  return str.replace(':', '');
+function toActionNotation(msg: string) {
+  return msg.split(' ')[0];
 }
 
-function getCommitFrom(logLine: string) {
-  return logLine.substring(0, 7);
-}
-
-function getMessageFrom(logLine: string) {
-  const header = logLine.split(' ', 2)[1];
-  return logLine.split(header, 2)[1].trim();
+function toBody(commitParts: string[]) {
+  const [,,body] = commitParts;
+  return body || null;
 }
 
 

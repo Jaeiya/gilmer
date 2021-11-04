@@ -49,15 +49,17 @@ function mapLogs(mapFn: (log: Log) => Log) {
 }
 
 function applyLogMarkdown(log: Log) {
-  const {msg, hash} = log;
+  const {msg, body, hash} = log;
   return {
     msg: toMdBullet(msg),
+    body: body && toBlockquote(body),
     hash: toMdURL(hash)
   } as Log;
 }
 
-function toMdBullet(str: string) { return `* ${str}`; }
-function toMdURL(str: string)    { return `[${str}](${config.url}/commit/${str})`; }
+function toMdBullet(str: string)   { return `* ${str}`; }
+function toBlockquote(str: string) { return `> ${str}`; }
+function toMdURL(str: string)      { return `[${str}](${config.url}/commit/${str})`; }
 
 function toActionString(pv: string, action: CommitAction) {
   return pv + pipe(
@@ -74,11 +76,13 @@ function appendActionName(action: CommitAction) {
 function capitalize(str: string) { return str[0].toUpperCase() + str.substring(1); }
 
 function appendLogs(action: CommitAction|CommitActionSubject) {
-  return (str: string) =>
-    action.logs.reduce(
-      (pv, log) => `${pv}${log.msg} (${log.hash})\n`, str
-    )
-  ;
+  return (str: string) => action.logs.reduce(toLogStr, str);
+}
+
+function toLogStr(pv: string, log: Log) {
+  const hash = `(${log.hash})`;
+  const body = `${log.body ? `${log.body}` : ''}`;
+  return `${pv}${log.msg} ${hash}\n${body}\n`;
 }
 
 function appendLogsWithSubjects(action: CommitAction) {
