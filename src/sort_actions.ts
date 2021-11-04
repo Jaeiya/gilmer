@@ -1,13 +1,15 @@
 import { CommitAction } from "./action_parser";
 
-const sortOrder = [
-  ['feat', 1],
-  ['chg', 2],
-  ['fix', 3],
-  ['clean', 4],
-  ['docs', 5],
-  ['chore', 6]
-] as [name: string, order: number][];
+type SortPriority = [name: string, priority: number];
+
+const sortOrder: SortPriority[] = [
+  ['feat'  , 1],
+  ['chg'   , 2],
+  ['fix'   , 3],
+  ['clean' , 4],
+  ['docs'  , 5],
+  ['chore' , 6]
+];
 
 
 export function sortActions(actions: CommitAction[]) {
