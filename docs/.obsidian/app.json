@@ -4,7 +4,11 @@
     "feat",
     "Dev",
     "Devs",
-    "prettyfier"
+    "prettyfier",
+    "deps",
+    "Github",
+    "Dev"
   ],
-  "spellcheck": true
+  "spellcheck": true,
+  "communityThemeSortOrder": "release"
 }
