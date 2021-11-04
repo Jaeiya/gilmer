@@ -48,13 +48,13 @@ function isValidLog(rawLog: string) {
 
 function toLogMetadata(logLine: string) {
   const commitParts = logLine.trim().split('|');
-  const [hash, commitMsg] = commitParts;
+  const [hash, commitMsg, body] = commitParts;
 
   return [
     toAction(commitMsg).replace(':', '').toLowerCase(),
     toSubject(commitMsg),
     toMsgText(commitMsg),
-    toBody(commitParts),
+    body || null,
     hash
   ] as LogMetadata;
 }
@@ -82,11 +82,6 @@ function toMsgText(commitMsg: string) {
 
 function toActionNotation(msg: string) {
   return msg.split(' ')[0];
-}
-
-function toBody(commitParts: string[]) {
-  const [,,body] = commitParts;
-  return body || null;
 }
 
 
