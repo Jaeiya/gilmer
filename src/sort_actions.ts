@@ -13,13 +13,13 @@ const sortOrder: SortPriority[] = [
 
 export function sortActions(actions: CommitAction[]) {
   actions.sort((a, b) => {
-    const a1 = findOrder(a.name);
-    const b1 = findOrder(b.name);
+    const a1 = findPriority(a.name);
+    const b1 = findPriority(b.name);
     return a1[1] - b1[1];
   });
 }
 
 
-function findOrder(name: string) {
+function findPriority(name: string) {
   return sortOrder.find(v => v[0] == name) ?? ['', sortOrder.length + 1];
 }
