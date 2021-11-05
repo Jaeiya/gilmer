@@ -20,9 +20,9 @@ exec('git log --pretty="format:%h|%s|%b^@^', (err, stdout) => {
   }
   pipe(
     () => getLogsMetadata(stdout),
-    getCommmitActionListFrom,
     getPrettyLog(title),
     (prettyLog: string) => writeFileSync(`${config.saveTo}/md_test.md`, prettyLog)
+    parseLogsAsActionList,
   )();
 });
 

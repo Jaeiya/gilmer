@@ -1,7 +1,7 @@
 
 import config from '../config.json';
 import { pipe } from "ramda";
-import { CommitAction, CommitActionSubject, Log } from "./action_parser";
+import { CommitAction, ActionContext, Log } from "./action_parser";
 import { sortActions } from './sort_actions';
 import { capitalize, toBlockquote, toMdBullet, toMdCode, toMdURL } from './utilities';
 
@@ -29,7 +29,7 @@ function toPrettyLog(pv: string, action: CommitAction) {
 
 function mapLogs(mapFn: (log: Log) => Log) {
   return (action: CommitAction) => {
-    action.subjects.forEach(s => s.logs = s.logs.map(mapFn));
+    action.contexts.forEach(s => s.logs = s.logs.map(mapFn));
     action.logs = action.logs.map(mapFn);
   };
 }
@@ -57,7 +57,7 @@ function appendActionName(action: CommitAction) {
   return (str: string) => `${str}\n\n## ${capitalize(action.name)}\n`;
 }
 
-function appendLogs(action: CommitAction|CommitActionSubject) {
+function appendLogs(action: CommitAction|ActionContext) {
   return (str: string) => action.logs.reduce(toLogStr, str);
 }
 
@@ -71,7 +71,7 @@ function toLogStr(pv: string, log: Log) {
 function appendLogsWithSubjects(action: CommitAction) {
   return (str: string) => {
     let layoutStr = str;
-    for (const subject of action.subjects) {
+    for (const subject of action.contexts) {
       const logStr = appendLogs(subject)('');
       layoutStr += `\n**${subject.name}**\n${logStr}`;
     }

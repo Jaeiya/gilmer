@@ -12,49 +12,41 @@ export type Log = {
 
 export type CommitAction = {
   name     : string;
-  subjects : CommitActionSubject[];
+  contexts : ActionContext[];
   logs     : Log[]
 }
 
-export type CommitActionSubject = {
-  name: string;
-  logs: Log[];
+export type ActionContext = CommitAction;
+
+
+
+export function parseLogsAsActionList(logDataList: LogMetadata[]) {
+  const actions: CommitAction[] = [];
+  for (const logData of logDataList) {
+    const [,,msg,body,date,hash] = logData;
+    const action = findOrCreateAction(logData)(actions);
+    action.logs.push({ msg, body, date, hash });
+  }
+  return actions;
 }
 
-
-
-export function getCommmitActionListFrom(logDataList: LogMetadata[]) {
-  return toCommitActionListFrom(logDataList)([]);
-}
-
-
-function toCommitActionListFrom(logDataList: LogMetadata[]) {
-  return (actions: CommitAction[]) => {
-    for (const logData of logDataList) {
-      const [actionName,,msg,body,date,hash] = logData;
-      let action = actions.find(a => a.name == actionName);
-      if (!action) {
-        action = { name: actionName, subjects: [], logs: [] };
-        actions.push(action);
-      }
-      if (tryAddSubjectLogs(logData)(action)) continue;
-      action.logs.push({ msg, body, date, hash, });
-    }
-    return actions;
+function findOrCreateAction(logData: LogMetadata) {
+  return (actions: CommitAction[]|ActionContext[]) => {
+    const [actionName,contextName] = logData;
+    const action = tryCreateAction(actionName)(actions);
+    const contextAction = contextName && tryCreateAction(contextName)(action.contexts);
+    return contextAction || action;
   };
 }
 
-function tryAddSubjectLogs(logData: LogMetadata) {
-  return (action: CommitAction) => {
-    const [,subjectName, msg, body, date, hash] = logData;
-    if (!subjectName) return false;
-    let subject = action.subjects.find(s => s.name == subjectName);
-    if (!subject) {
-      subject = { name: subjectName, logs: [] };
-      action.subjects.push(subject);
-    }
-    subject.logs.push({msg, body, date, hash});
-    return true;
+/** If CommitAction or ActionContext doesn't exist, create it. */
+function tryCreateAction(name: string) {
+  return (actions: CommitAction[]|ActionContext[]) => {
+    let action = actions.find(a => a.name == name);
+    if (action) return action;
+    action = { name, contexts: [], logs: [] };
+    actions.push(action);
+    return action;
   };
 }
 
