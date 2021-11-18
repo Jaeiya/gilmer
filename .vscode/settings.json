@@ -3,8 +3,7 @@
     "editorInlayHint.background": "#49463f",
     "editorInlayHint.foreground": "#d4d0c1",
     "editorCursor.foreground": "#b3ff00",
-    "activityBar.background": "#61031C",
-    "titleBar.activeBackground": "#880527",
-    "titleBar.activeForeground": "#FFFBFC"
+    "titleBar.activeBackground": "#ffe48b",
+    "titleBar.activeForeground": "#000000"
   }
 }
