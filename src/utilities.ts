@@ -11,10 +11,14 @@ export function toBlockquote(str: string) {
   return `> ${str}`;
 }
 
-export function toMdURL(str: string, url: string) {
+export function toMdURL(str: string, url: null|string) {
+  if (!url) return `${str}`;
   return `[${str}](${url}/commit/${str})`;
 }
 
 export function toMdCode(str: string) {
   return `\`${str}\``;
 }
+
+
+
