@@ -1,5 +1,5 @@
-
-import { getCommmitActionListFrom } from "./action_parser";
+#!/usr/bin/env node
+import { parseLogsAsActionList } from "./action_parser";
 import { getLogsMetadata } from "./log_parser";
 import { getPrettyLog } from "./pretty_parser";
 import { writeFileSync } from "fs";

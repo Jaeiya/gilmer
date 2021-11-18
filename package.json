@@ -1,8 +1,12 @@
 {
-  "name": "md-gitlogs",
+  "name": "pretty-gitlog",
   "version": "1.0.0",
-  "description": "Writes to screen and/or git logs into a pretty changelog",
-  "main": "index.js",
+  "description": "Writes a pretty markdown representation of a git log to file.",
+  "main": "bin/main.js",
+  "bin": {
+    "pretty-gitlog": "./bin/main.js"
+  },
+  "preferGlobal": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
