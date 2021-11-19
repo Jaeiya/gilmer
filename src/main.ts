@@ -5,7 +5,6 @@ import { getPrettyLog } from "./lib/pretty_parser";
 import { existsSync, mkdirSync, writeFileSync } from "fs";
 import { pipe } from "ramda";
 import { exec, ExecException } from "child_process";
-import chalk from "chalk";
 import { dirname, basename } from "path";
 import { color } from "./lib/colors";
 import { state } from "./lib/state";
