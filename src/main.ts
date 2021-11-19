@@ -8,15 +8,12 @@ import { exec, ExecException } from "child_process";
 import chalk from "chalk";
 import { dirname, basename } from "path";
 import { color } from "./lib/colors";
+import { state } from "./lib/state";
+
 
 
 const title = process.argv[2] ?? 'untitled';
 const c = color;
-
-
-const config = {
-  remoteURL: null as null|string,
-};
 
 
 Promise.resolve()
@@ -58,7 +55,7 @@ function setRemoteRepoURL(err: ExecException|null, out: string) {
     );
     return;
   }
-  config.remoteURL = `${dirname(out)}/${basename(out.trim(), '.git')}`;
+  state.repoURL = `${dirname(out)}/${basename(out.trim(), '.git')}`;
 }
 
 function writePrettyLogs(err: ExecException|null, out: string) {
@@ -70,7 +67,7 @@ function writePrettyLogs(err: ExecException|null, out: string) {
   pipe(
     () => getLogsMetadata(out),
     parseLogsAsActionList,
-    getPrettyLog(title, config.remoteURL),
+    getPrettyLog(title),
     (prettyLog: string) => writeFileSync("./docs/md_test.md", prettyLog)
   )();
 }

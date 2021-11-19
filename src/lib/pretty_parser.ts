@@ -2,19 +2,14 @@
 import { pipe } from "ramda";
 import { CommitAction, ActionContext, Log } from "./action_parser";
 import { sortActions } from './sort_actions';
+import { state } from "./state";
 import { capitalize, toBlockquote, toMdBullet, toMdCode, toMdURL } from './utilities';
 
 
 
-const prettyConfig = {
-  remoteRepoURL: null as null|string
-};
-
-
-export function getPrettyLog(title: string, remoteRepoURL: string|null) {
+export function getPrettyLog(title: string) {
   return (actions: CommitAction[]) => {
     if (!actions.length) throw Error('Missing actions array!');
-    prettyConfig.remoteRepoURL = remoteRepoURL;
     sortActions(actions);
     return appendTitle(title)(actions.reduce(toPrettyLog, ''));
   };
@@ -45,7 +40,7 @@ function applyLogMarkdown(log: Log) {
     msg: toMdBullet(msg),
     body: body && toBlockquote(body),
     date: toMdCode(date),
-    hash: toMdURL(hash, prettyConfig.remoteRepoURL)
+    hash: toMdURL(hash, state.repoURL)
   } as Log;
 }
 
