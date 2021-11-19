@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-import { parseLogsAsActionList } from "./action_parser";
-import { getLogsMetadata } from "./log_parser";
-import { getPrettyLog } from "./pretty_parser";
+import { parseLogsAsActionList } from "./lib/action_parser";
+import { getLogsMetadata } from "./lib/log_parser";
+import { getPrettyLog } from "./lib/pretty_parser";
 import { existsSync, mkdirSync, writeFileSync } from "fs";
 import { pipe } from "ramda";
 import { exec, ExecException } from "child_process";
