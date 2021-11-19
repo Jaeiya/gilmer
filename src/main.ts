@@ -7,16 +7,11 @@ import { pipe } from "ramda";
 import { exec, ExecException } from "child_process";
 import chalk from "chalk";
 import { dirname, basename } from "path";
+import { color } from "./lib/colors";
 
 
 const title = process.argv[2] ?? 'untitled';
-
-const yellow = chalk.yellow;
-const red = chalk.redBright;
-const green = chalk.greenBright;
-const white = chalk.white;
-const bWhite = chalk.whiteBright;
-
+const c = color;
 
 
 const config = {
@@ -46,20 +41,20 @@ function execAsync(command: string, callback: (err: ExecException|null, out: str
 
 function validateGitCommand(err: ExecException|null) {
   if (err) {
-    console.log(red('\n\nError: ') + yellow('Missing GIT Command or Commits') + '\n');
+    console.log(c.r('\n\nError: ') + c.y('Missing GIT Command or Commits') + '\n');
     process.exit(1);
   }
 }
 
 function setRemoteRepoURL(err: ExecException|null, out: string) {
   if (err) {
-    console.log(red('\n\nWARNING: ') + yellow('Local Respository Only'));
+    console.log(c.r('\n\nWARNING: ') + c.y('Local Respository Only'));
     console.log(
-      green('\nNOTE: ') +
-      white('Commit hashes will ') +
-      red('not ') +
-      white('be ') +
-      bWhite('clickable\n\n')
+      c.g('\nNOTE: ') +
+      c.d('Commit hashes will ') +
+      c.r('not ') +
+      c.d('be ') +
+      c.w('clickable\n\n')
     );
     return;
   }
@@ -68,8 +63,8 @@ function setRemoteRepoURL(err: ExecException|null, out: string) {
 
 function writePrettyLogs(err: ExecException|null, out: string) {
   if (err) {
-    console.log(chalk.yellow('\nError Executing Command:\n'));
-    console.log(chalk.red(err.message));
+    console.log(c.y('\nError Executing Command:\n'));
+    console.log(c.r(err.message));
     return;
   }
   pipe(
