@@ -8,14 +8,15 @@ import { exec, ExecException } from "child_process";
 import { dirname, basename } from "path";
 import { color } from "./lib/colors";
 import { state } from "./lib/state";
+import { handleCLIArgs } from "./lib/cli_handler";
 
 
 
-const title = process.argv[2] ?? 'untitled';
 const c = color;
 
 
 Promise.resolve()
+  .then(handleCLIArgs)
   .then(execAsync('git log --max-count=1', validateGitCommand))
   .then(execAsync('git config --get remote.origin.url', setRemoteRepoURL))
   .then(tryCreateDocPath)
@@ -66,7 +67,7 @@ function writePrettyLogs(err: ExecException|null, out: string) {
   pipe(
     () => getLogsMetadata(out),
     parseLogsAsActionList,
-    getPrettyLog(title),
+    getPrettyLog(state.title),
     (prettyLog: string) => writeFileSync("./docs/md_test.md", prettyLog)
   )();
 }

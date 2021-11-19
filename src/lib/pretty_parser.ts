@@ -6,7 +6,6 @@ import { state } from "./state";
 import { capitalize, toBlockquote, toMdBullet, toMdCode, toMdURL } from './utilities';
 
 
-
 export function getPrettyLog(title: string) {
   return (actions: CommitAction[]) => {
     if (!actions.length) throw Error('Missing actions array!');
@@ -64,7 +63,10 @@ function appendLogs(action: CommitAction|ActionContext) {
 function toLogStr(pv: string, log: Log) {
   const hash = `(${log.hash})`;
   const date = `${log.date}`;
-  const body = `${log.body ? `${log.body}` : ''}`;
+  const body = state.verbose
+    ? `${log.body ? `${log.body}` : ''}`
+    : ''
+  ;
   return `${pv}${log.msg} ${hash} ${date}\n${body}\n`;
 }
 
