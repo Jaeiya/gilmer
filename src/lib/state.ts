@@ -2,7 +2,7 @@
 
 export const state = {
   repoURL: null as null|string,
-  title: '',
+  title: 'Pretty GitLog',
   verbose: false,
 };
 
