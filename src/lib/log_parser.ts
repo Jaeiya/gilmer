@@ -1,5 +1,5 @@
 
-import chalk from 'chalk';
+import { color } from './colors';
 
 
 
@@ -14,6 +14,9 @@ export type LogMetadata = [
 
 
 
+const c = color;
+
+
 export function getLogsMetadata(rawLog: string) {
   if (!isValidLog(rawLog)) [] as LogMetadata[];
   const logLines = rawLog.split('^@^');
@@ -24,7 +27,7 @@ export function getLogsMetadata(rawLog: string) {
 
 function isValidLog(rawLog: string) {
   if (!rawLog.trim()) {
-    console.log(`\n${chalk.red('Error: file is empty')}\n`);
+    console.log(`\n${c.r('Error: file is empty')}\n`);
     return false;
   }
   return true;
