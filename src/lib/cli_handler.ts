@@ -2,15 +2,8 @@ import { color } from "./colors";
 import { state } from "./state";
 
 
-type CLIArgs = [
-  nodePath: string,
-  appPath: string,
-  title: string,
-  flag: string,
-]
 
-
-const [,,title,flag] = process.argv as CLIArgs;
+const [,,title,...flags] = process.argv;
 const c = color;
 
 
@@ -20,8 +13,8 @@ export function handleCLIArgs() {
     console.log(c.g('\nNOTE:', c.d('Flags must be typed after the Title\n\n')));
     process.exit(1);
   }
-  state.title = title ?? state.title;
-  state.verbose = !!flag && (flag == '-v' || flag == '-verbose');
+  state.cli.title = title ?? state.cli.title;
+  state.cli.verbose = flags.includes('-v') || flags.includes('-verbose');
 }
 
 

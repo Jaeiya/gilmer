@@ -67,7 +67,7 @@ function writePrettyLogs(err: ExecException|null, out: string) {
   pipe(
     () => getLogsMetadata(out),
     parseLogsAsActionList,
-    getPrettyLog(state.title),
+    getPrettyLog(state.cli.title),
     (prettyLog: string) => writeFileSync("./docs/md_test.md", prettyLog)
   )();
 }
