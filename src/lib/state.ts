@@ -5,6 +5,7 @@ export const state = {
   cli: {
     title: 'Pretty GitLog',
     verbose: false,
+    date: null as null|string,
   }
 };
 
