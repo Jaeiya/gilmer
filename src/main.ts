@@ -38,16 +38,16 @@ function execAsync(command: string, callback: (err: ExecException|null, out: str
 
 function validateGitCommand(err: ExecException|null) {
   if (err) {
-    console.log(c.r('\n\nError: ') + c.y('Missing GIT Command or Commits') + '\n');
+    console.log(c.r('\n\n ERROR: ') + c.y('Missing GIT Command or Commits') + '\n');
     process.exit(1);
   }
 }
 
 function setRemoteRepoURL(err: ExecException|null, out: string) {
   if (err) {
-    console.log(c.r('\n\nWARNING: ') + c.y('Local Respository Only'));
+    console.log(c.r('\n\n WARNING: ') + c.y('Local Respository Only'));
     console.log(
-      c.g('\nNOTE: ') +
+      c.g('\n    NOTE: ') +
       c.d('Commit hashes will ') +
       c.r('not ') +
       c.d('be ') +
@@ -60,8 +60,8 @@ function setRemoteRepoURL(err: ExecException|null, out: string) {
 
 function writePrettyLogs(err: ExecException|null, out: string) {
   if (err) {
-    console.log(c.y('\nError Executing Command:\n'));
-    console.log(c.r(err.message));
+    console.log(c.r('\nError Executing Command:\n'));
+    console.log(c.y(err.message));
     return;
   }
   pipe(

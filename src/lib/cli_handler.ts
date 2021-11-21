@@ -9,8 +9,8 @@ const c = color;
 
 export function handleCLIArgs() {
   if (title && title.includes('-')) {
-    console.log(c.r('\n\nError:'), c.y('Invalid Title'));
-    console.log(c.g('\nNOTE:', c.d('Flags must be typed after the Title\n\n')));
+    console.log(c.r('\n\n ERROR:'), c.y('Invalid Title'));
+    console.log(c.g('\n  NOTE:', c.d('Flags must be typed after the Title\n\n')));
     process.exit(1);
   }
   state.cli.title = title ?? state.cli.title;
@@ -33,12 +33,14 @@ function getDateFlag(flags: string[]) {
 
 function getFlagValue(flag: string) {
   if (!flag.includes('=')) {
-    console.log(c.r('\n\nError:'), `${c.y('Malformed Flag')} ${c.r('(')}${c.w(flag)}${c.r(')')} `);
+    console.log(c.r('\n\n   ERROR:'), `${c.y('Malformed Flag')} ${c.r('(')}${c.w(flag)}${c.r(')')}`);
     console.log(
-      c.g('\nNOTE:',
-      c.d('Set Flags using an equal sign. If the value has spaces, wrap it in quotes.')
+      c.g('\n    NOTE:',
+      c.d(
+`Flags are set using an equals sign.
+          If a value has spaces, wrap it in quotes.`)
     ));
-    console.log(c.g('\nExample:'), c.w('-from=\'Aug 21, 2021\'\n\n'));
+    console.log(c.g('\n EXAMPLE:'), `${c.y('-')}from${c.y(`='`)}Aug 21, 2021${c.y(`'`)}\n\n`);
     process.exit(0);
   }
   return flag.split('=')[1];
@@ -46,12 +48,14 @@ function getFlagValue(flag: string) {
 
 function validateDate(date: string) {
   if ((new Date(date)).toString() == 'Invalid Date') {
-    console.log(c.r('\n\nError:'), `${c.y('Invalid Date')} ${c.r('(')}${c.w(date)}${c.r(')')} `);
+    console.log(c.r('\n\n   ERROR:'), `${c.y('Invalid Date')} ${c.r('(')}${c.w(date)}${c.r(')')} `);
     console.log(
-      c.g('\nNOTE:',
-      c.d('Make sure you entered the date properly. If it contains spaces, wrap it in quotes.')
+      c.g('\n    NOTE:',
+      c.d(
+`Make sure you entered the date properly.
+          If it contains spaces, wrap it in quotes.`)
     ));
-    console.log(c.g('\nExample:'), c.w('-from=\'Aug 21, 2021\'\n\n'));
+    console.log(c.g('\n EXAMPLE:'), `${c.y('-')}from${c.y(`='`)}Aug 21, 2021${c.y(`'`)}\n\n`);
     process.exit(0);
   }
   return date;
