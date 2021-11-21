@@ -20,7 +20,7 @@ Promise.resolve()
   .then(execAsync('git log --max-count=1', validateGitCommand))
   .then(execAsync('git config --get remote.origin.url', setRemoteRepoURL))
   .then(tryCreateDocPath)
-  .then(execAsync('git log --pretty="format:%h|%ci|%s|%b^@^', writePrettyLogs))
+  .then(execAsync('git log --pretty="format:%h|%ci|%s|%b^@^"', writePrettyLogs))
 ;
 
 
