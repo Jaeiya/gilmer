@@ -14,13 +14,13 @@ import { handleCLIArgs } from "./lib/cli_handler";
 
 const c = color;
 
+handleCLIArgs();
 
 Promise.resolve()
-  .then(handleCLIArgs)
   .then(execAsync('git log --max-count=1', validateGitCommand))
   .then(execAsync('git config --get remote.origin.url', setRemoteRepoURL))
   .then(tryCreateDocPath)
-  .then(execAsync('git log --pretty="format:%h|%ci|%s|%b^@^"', writePrettyLogs))
+  .then(execAsync(`git log ${trySinceFlag()} --pretty="format:%h|%ci|%s|%b^@^"`, writePrettyLogs))
 ;
 
 
@@ -75,6 +75,10 @@ function writePrettyLogs(err: ExecException|null, out: string) {
 function tryCreateDocPath() {
   if (existsSync('./docs')) return;
   mkdirSync('./docs');
+}
+
+function trySinceFlag() {
+  return state.cli.date ? `--since="${state.cli.date}"` : '';
 }
 
 
