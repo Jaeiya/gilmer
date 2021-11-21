@@ -18,19 +18,22 @@ const c = color;
 
 
 export function getLogsMetadata(rawLog: string) {
-  if (!isValidLog(rawLog)) [] as LogMetadata[];
+  validateLog(rawLog);
   const logLines = rawLog.split('^@^');
   logLines.pop(); // Last element is always empty
   return logLines.reverse().map(toLogMetadata);
 }
 
 
-function isValidLog(rawLog: string) {
+function validateLog(rawLog: string) {
   if (!rawLog.trim()) {
-    console.log(`\n${c.r('Error: file is empty')}\n`);
-    return false;
+    console.log(`\n ${c.r('ERROR:')} ${c.y('No Logs Found')}\n`);
+    console.log(
+`  ${c.g('NOTE:')} Make sure you've made at least one commit.
+        If you've set a ${c.w('-from')} date, make sure it predates current changes.\n\n`
+    );
+    process.exit(0);
   }
-  return true;
 }
 
 function toLogMetadata(logLine: string) {
