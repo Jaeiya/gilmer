@@ -23,7 +23,7 @@ Let me add that putting a paragraph within the **body** of a commit, has it's us
 Verbosity should be reserved for the body of a commit, and only when it's absolutely necessary to describe some kind of design/engineering issue/choice which would otherwise not be obvious, even from the code.
 
 ### **Contextual**
-This is the strategy we're going to be using. Not only does it maintain the minimalist philosophy of a concise message, but it also adds a bit of contextual sugar, along with allowing extra content to be laid out in the body of a commit. In order to maintain a readability, we're also limiting what actions are valid.
+This is the strategy we're going to be using. Not only does it maintain the minimalist philosophy of a concise message, but it also adds a bit of contextual sugar, along with allowing extra content to be laid out in the body of a commit. In order to maintain readability, we're also limiting what actions are valid.
 
 The syntax for this is as follows, and notice that we're expounding on the example above: `fix(char_props): remove obsolete attributes`
 - If we're familiar with the code-base at all, we'll immediately know where this change occurred. Even if we're *not* familiar with it, we now know where to look for the change.
@@ -43,12 +43,12 @@ If we don't unify the way a commit is structured, then we run the risk of "*too 
 Having a commit paradigm already in place, will allow contributors to immediately start creating consistent and sensible commits.
 
 ## Syntax
-```
-// Bad
+```bash
+# Bad
 action description
 description
 
-// Good
+# Good
 action: description
 action(subject): description
 ```
@@ -59,15 +59,15 @@ Should be one of the **allowed** actions listed at the bottom of this document. 
 Should be the specific context that the **action** is being applied to. This is usually a *file* or *class* name, but can also be a prolific *concept* or *function* within the code-base.
 
 ## Examples
-```
-// Bad
+```bash
+# Bad
 fix: changed color from yellow to red
 
-// Okay
+# Okay
 fix: emphasize error text with red
 fix: error text should be red
 
-// Excellent
+# Excellent
 fix: not enough emphasis on error text
 ```
 As you can see from the array of "good" examples, that context is more important than what the code is actually doing. The **why** for a commit should always take precedence over what the code inside a commit is actually doing, unless what a commit is doing, is the context itself.
@@ -101,6 +101,10 @@ This can be a bit ambiguous, since sometimes you may want to fix code that can f
 
 **Change:** `chg`
 A change that does not fall under any other **allowed** actions. This action should almost always come with body text, which describes why the change was necessary.
+
+**Work in Progress** `wip`
+Any changes that pertain to a work in progress (new feature, bug fix, etc...); it includes any actions, as long as those actions are not completing the work. Once the work is complete, the `wip` action can no longer be used; this includes the final commit that **completes** the work.
+> The final commit, that completes the work, should use an appropriate action: `fix`, `feat`, `clean`, etc... **not** `wip`
 
 **Clean Code:** `clean`
 Anything that pertains to clean code practices: refactoring, re-structuring, renaming, reducing/improving logic, white-space changes, etc...
