@@ -1,10 +1,10 @@
 {
-  "name": "pretty-gitlog",
+  "name": "gilmer",
   "version": "1.0.0",
-  "description": "Writes a pretty markdown representation of a git log to file.",
+  "description": "Process a git log into an easily readable markdown file.",
   "main": "bin/main.js",
   "bin": {
-    "pretty-gitlog": "./bin/main.js"
+    "gilmer": "./bin/main.js"
   },
   "preferGlobal": true,
   "scripts": {
