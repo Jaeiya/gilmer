@@ -15,19 +15,14 @@ export function handleCLIArgs() {
   }
   state.cli.filename = fileName ?? state.cli.filename;
   state.cli.verbose = flags.includes('-v') || flags.includes('-verbose');
-  state.cli.date = getDateFlag(flags);
+  state.cli.dateSince = getDateFlag(flags, ['-from', '-since']);
+  state.cli.dateUntil = getDateFlag(flags, ['-to',   '-until']);
 }
 
 
-function getDateFlag(flags: string[]) {
-  const dateFlag =
-    flags.find(v =>
-      v.includes('-from') ||
-      v.includes('-since') ||
-      v.includes('-date')
-    )
-  ;
-  const date = (dateFlag && getFlagValue(dateFlag)) || null;
+function getDateFlag(flags: string[], dateFlags: string[]) {
+  const dateValue = flags.find(flag => !!dateFlags.find(dflag => flag.includes(dflag)));
+  const date = (dateValue && getFlagValue(dateValue)) || null;
   return (date && validateDate(date)) || null;
 }
 

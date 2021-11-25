@@ -5,7 +5,8 @@ export const state = {
   cli: {
     filename: 'Git Log',
     verbose: false,
-    date: null as null|string,
+    dateSince: null as null|string,
+    dateUntil: null as null|string,
   }
 };
 

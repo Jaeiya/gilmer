@@ -21,7 +21,7 @@ Promise.resolve()
   .then(execAsync('git log --max-count=1', validateGitCommand))
   .then(execAsync('git config --get remote.origin.url', setRemoteRepoURL))
   .then(tryCreateDocPath)
-  .then(execAsync(`git log ${trySinceFlag()} --pretty="format:%h|%ci|%s|%b^@^"`, writePrettyLogs))
+  .then(execAsync(`git log ${trySinceFlag()} ${tryUntilFlag()} --pretty="format:%h|%ci|%s|%b^@^"`, writePrettyLogs))
 ;
 
 
@@ -83,7 +83,11 @@ function tryCreateDocPath() {
 }
 
 function trySinceFlag() {
-  return state.cli.date ? `--since="${state.cli.date}"` : '';
+  return state.cli.dateSince ? `--since="${state.cli.dateSince}"` : '';
+}
+
+function tryUntilFlag() {
+  return state.cli.dateUntil ? `--until="${state.cli.dateUntil}"` : '';
 }
 
 
