@@ -53,7 +53,7 @@ function toActionString(pv: string, action: CommitAction) {
 }
 
 function appendActionName(action: CommitAction) {
-  return (str: string) => `${str}\n\n## ${capitalize(action.name)}\n`;
+  return (str: string) => `${str}\n## ${capitalize(action.name)}\n`;
 }
 
 function appendLogs(action: CommitAction|ActionContext) {
@@ -64,10 +64,10 @@ function toLogStr(pv: string, log: Log) {
   const hash = `(${log.hash})`;
   const date = `${log.date}`;
   const body = state.cli.verbose
-    ? `${log.body ? `${log.body}` : ''}`
+    ? `${log.body ? `${log.body}\n` : ''}`
     : ''
   ;
-  return `${pv}${log.msg} ${hash} ${date}\n${body}\n`;
+  return `${pv}${log.msg} ${hash} ${date}\n${body}`;
 }
 
 function appendLogsWithSubjects(action: CommitAction) {
