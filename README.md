@@ -43,6 +43,7 @@ There are 2 flags and they **must** come **after** a given file name, but flags 
 gilmer -flag
 
 # Success
+gilmer mylog -flag
 gilmer "My Log" -flag
 gilmer "My Log" -flag -flag2
 ```
@@ -55,14 +56,14 @@ gilmer mylog -verbose
 ## `From` Flag
 If this flag is not specified, Gilmer will fetch every log from the first to the last. Gilmer is a lot more practical when used with specific time restraints. You can use any string date format accepted by the JavaScript [Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/Date) constructor.
 ```bash
-gilmer --from="12/12/2020"
-gilmer --since="12/12/2020"
+gilmer mylog --from="12/12/2020"
+gilmer mylog --since="12/12/2020"
 ```
 ## `To` Flag
 If this flag is not specified, Gilmer will fetch all logs from the `-from` flag up to the latest log. You can use any string date format accepted by the JavaScript [Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/Date) constructor.
 ```bash
-gilmer -to="12/28/21"
-gilmer -until="12/28/21"
+gilmer mylog -to="12/28/21"
+gilmer mylog -until="12/28/21"
 ```
 ## Using Date Flags
 It's best to use the date flags **From** and **To** in tandem with eachother, that way the generated log doesn't overwhelm.
