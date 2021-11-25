@@ -3,7 +3,7 @@
 export const state = {
   repoURL: null as null|string,
   cli: {
-    title: 'Pretty GitLog',
+    filename: 'Pretty GitLog',
     verbose: false,
     date: null as null|string,
   }

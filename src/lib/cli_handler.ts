@@ -3,17 +3,17 @@ import { state } from "./state";
 
 
 
-const [,,title,...flags] = process.argv;
+const [,,fileName,...flags] = process.argv;
 const c = color;
 
 
 export function handleCLIArgs() {
-  if (title && title.includes('-')) {
-    console.log(c.r('\n\n ERROR:'), c.y('Invalid Title'));
-    console.log(c.g('\n  NOTE:', c.d('Flags must be typed after the Title\n\n')));
+  if (fileName && fileName.includes('-')) {
+    console.log(c.r('\n\n ERROR:'), c.y('Invalid File Name'));
+    console.log(c.g('\n  NOTE:', c.d('Flags must be typed after the File Name\n\n')));
     process.exit(1);
   }
-  state.cli.title = title ?? state.cli.title;
+  state.cli.filename = fileName ?? state.cli.filename;
   state.cli.verbose = flags.includes('-v') || flags.includes('-verbose');
   state.cli.date = getDateFlag(flags);
 }
