@@ -46,19 +46,30 @@ gilmer -flag
 gilmer "My Log" -flag
 gilmer "My Log" -flag -flag2
 ```
-## Verbose Flag
+## `Verbose` Flag
 Logs will be written with their message bodies as well.
 ```bash
 gilmer mylog -v
 gilmer mylog -verbose
 ```
-## From Flag
-If this flag is not specified, Gilmer will parse every commit from the first to the last. The log is a lot more practical to be used with specific time periods. You can use any string date format accepted by the JavaScript [Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/Date) constructor.
+## `From` Flag
+If this flag is not specified, Gilmer will fetch every log from the first to the last. Gilmer is a lot more practical when used with specific time restraints. You can use any string date format accepted by the JavaScript [Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/Date) constructor.
 ```bash
 gilmer --from="12/12/2020"
-gilmer --date="12/12/2020"
 gilmer --since="12/12/2020"
 ```
+## `To` Flag
+If this flag is not specified, Gilmer will fetch all logs from the `-from` flag up to the latest log. You can use any string date format accepted by the JavaScript [Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/Date) constructor.
+```bash
+gilmer -to="12/28/21"
+gilmer -until="12/28/21"
+```
+## Using Date Flags
+It's best to use the date flags **From** and **To** in tandem with eachother, that way the generated log doesn't overwhelm.
+```bash
+gilmer mylog -from="12/1/21" -to="12/28/21"
+```
+
 
 ## Opinionated by Default
 This project was created for my use-case, with only the bare minimum configuration options. Changing anything outside of the file name, verbocity of the logs generated, or the date from which the log is generated, is non-configurable.
