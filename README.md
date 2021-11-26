@@ -67,7 +67,7 @@ gilmer mylog -to="12/28/21"
 gilmer mylog -until="12/28/21"
 ```
 ## Using Date Flags
-It's best to use the date flags **From** and **To** in tandem with eachother, that way the generated log doesn't overwhelm.
+It's best to use the date flags (**From** and **To**) in tandem with eachother, that way the generated log doesn't overwhelm.
 ```bash
 gilmer mylog -from="12/1/21" -to="12/28/21"
 ```
