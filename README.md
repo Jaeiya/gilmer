@@ -45,7 +45,8 @@ gilmer -flag
 # Success
 gilmer mylog -flag
 gilmer "My Log" -flag
-gilmer "My Log" -flag -flag2
+gilmer "My Log" -flag1 -flag2
+gilmer "My Log" -flag2 -flag1
 ```
 ## `Verbose` Flag
 Logs will be written with their message bodies as well.
