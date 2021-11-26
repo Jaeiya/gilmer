@@ -49,7 +49,7 @@ gilmer "My Log" -flag1 -flag2
 gilmer "My Log" -flag2 -flag1
 ```
 ## `Verbose` Flag
-Logs will be written with their message bodies as well.
+A log is comprised of a message (commit message) and a body. The body is usually not necessary, which is why it's hidden by default. The `verbose` flag tells gilmer to show that body text along with the commit message.
 ```bash
 gilmer mylog -v
 gilmer mylog -verbose
