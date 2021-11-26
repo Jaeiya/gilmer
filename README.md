@@ -61,7 +61,7 @@ gilmer mylog --from="12/12/2020"
 gilmer mylog --since="12/12/2020"
 ```
 ## `To` Flag
-If this flag is not specified, Gilmer will fetch all logs from the `-from` flag up to the latest log. You can use any string date format accepted by the JavaScript [Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/Date) constructor.
+If this flag is not specified, Gilmer will fetch all logs from the `-from` (if specified) flag up to the latest log. You can use any string date format accepted by the JavaScript [Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/Date) constructor.
 ```bash
 gilmer mylog -to="12/28/21"
 gilmer mylog -until="12/28/21"
