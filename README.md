@@ -97,8 +97,10 @@ gilmer mylog -from="12/1/21" -to="12/28/21"
 ```
 
 
-## Opinionated by Default
-This project was created for my use-case, with only the bare minimum configuration options. Changing anything outside of the file name, verbocity of the logs generated, or the date from which the log is generated, is non-configurable.
+# Opinionated by Default
+This project was created for my use-case, with only the bare minimum configuration options. Changing anything outside of the file name, verbosity of the logs generated, or the date from which the log is generated, is non-configurable.
+
+In combination with only certain configurable options, the [commit_syntax](/docs/commit_syntax.md) document outlines the best commit practices for use with Gilmer. Although it's possible to use your own commit syntax, there's no guarantee that the output will be as useful or consistent.
 
 The priority configuration for **actions** is located in [sort_actions.ts](https://github.com/Jaeiya/gilmer/blob/22eeb59011582fe6e76a50cf69ed5c117bdbe212/src/lib/sort_actions.ts#L10-L16); it controls the order of actions in the log file.
 
