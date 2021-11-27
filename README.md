@@ -2,7 +2,7 @@
 # What is Gilmer?
 Gilmer stands for Git Log Markdown-er. If I were to brand it, it would be spelled: `GiLMer`. After watching an amazing [DevOps Video](https://www.youtube.com/watch?v=t9HRzE7_2Xc) from a little-known company called [Butterscotch Shenanigans](https://www.youtube.com/user/BScotchShenani), I decided I needed to up my DevOps game to reduce the amount of time I spent looking through my git logs when writing the changelog for my projects.
 
-Through this process, I also realized how lazy I was about actually writing consistent commit messages...and thus the [commit_syntax](/docs/commit_syntax) was born.
+Through this process, I also realized how lazy I was about actually writing consistent commit messages...and thus the [commit_syntax](/docs/commit_syntax.md) was born.
 
 Gilmer is designed to display an overview of commit messages (not unlike a changelog), organized by action and context/subject. The order in which the actions appear, is hard-coded and a `./docs` folder is created at the working directory.
 
