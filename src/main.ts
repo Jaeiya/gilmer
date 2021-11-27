@@ -6,14 +6,12 @@ import { existsSync, mkdirSync, writeFileSync } from "fs";
 import { pipe } from "ramda";
 import { exec, ExecException } from "child_process";
 import { dirname, basename } from "path";
-import { color } from "./lib/colors";
+import { color as c } from "./lib/colors";
 import { state } from "./lib/state";
 import { handleCLIArgs } from "./lib/cli_handler";
 import { toFileNameWithDate } from "./lib/utilities";
 
 
-
-const c = color;
 
 handleCLIArgs();
 

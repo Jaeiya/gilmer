@@ -21,12 +21,12 @@ export function handleCLIArgs() {
 
 
 function getDateFlag(flags: string[], dateFlags: string[]) {
-  const dateValue = flags.find(flag => !!dateFlags.find(dflag => flag.includes(dflag)));
-  const date = (dateValue && getFlagValue(dateValue)) || null;
+  const flagValue = flags.find(flag => !!dateFlags.find(dflag => flag.includes(dflag)));
+  const date = (flagValue && parseFlagValue(flagValue)) || null;
   return (date && validateDate(date)) || null;
 }
 
-function getFlagValue(flag: string) {
+function parseFlagValue(flag: string) {
   if (!flag.includes('=')) {
     console.log(c.r('\n\n   ERROR:'), `${c.y('Malformed Flag')} ${c.r('(')}${c.w(flag)}${c.r(')')}`);
     console.log(

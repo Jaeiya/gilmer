@@ -7,7 +7,7 @@ type SortPriority = [name: string, priority: number];
 
 
 
-const sortOrder: SortPriority[] = [
+const actionOrder: SortPriority[] = [
   ['feat'  , 1],
   ['chg'   , 2],
   ['fix'   , 3],
@@ -15,7 +15,7 @@ const sortOrder: SortPriority[] = [
   ['chore' , 10]
 ];
 
-const defaultOrder: SortPriority = ['', sortOrder.length + 1];
+const defaultOrder: SortPriority = ['', actionOrder.length + 1];
 
 
 export function sortActions(actions: CommitAction[]) {
@@ -27,5 +27,5 @@ export function sortActions(actions: CommitAction[]) {
 }
 
 function findPriority(name: string) {
-  return sortOrder.find(v => v[0] == name) ?? defaultOrder;
+  return actionOrder.find(v => v[0] == name) ?? defaultOrder;
 }
