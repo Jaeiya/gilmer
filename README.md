@@ -10,7 +10,7 @@ If Gilmer is executed with no arguments, then the file will be created like so: 
 
 With a real file, the date placeholders would be replaced by Today's date. For an example of what this looks like in practice, here's **this** repositories [Gilmer Output](/docs/ExampleLog.11_25_2021.md) without any flags.
 
-You might be wondering why I have those horizontal lines after each block. It doesn't look very good in Github markdown, but it works very well with the [Obsidianite](/docs/.obsidian/themes/Obsidianite.css) theme I have installed for [Obsidian](https://obsidian.md/), which is what I use to write my docs.
+You might be wondering why I have those horizontal lines after each block. It doesn't look very good in Github markdown, but it works very well with the [Obsidianite](https://github.com/bennyxguo/Obsidian-Obsidianite) theme I have installed for [Obsidian](https://obsidian.md/), which is what I use to write my docs.
 
 When using the date flags, you can get very granular with the timeline of changes. You could even do weekly or monthly logs in order to assess how much work is getting done in a team.
 
