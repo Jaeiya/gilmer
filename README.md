@@ -99,7 +99,7 @@ gilmer mylog -from="12/1/21" -to="12/28/21"
 
 
 # Opinionated by Default
-This project was created for my use-case, with only the bare minimum configuration options. Changing anything outside of the file name, verbosity of the logs generated, or the date from which the log is generated, is non-configurable.
+This project was created for my use-case, with only the bare minimum configuration options. Changing anything outside of the file name, verbosity of the logs generated, or the date from which the log is generated, is not configurable from the CLI.
 
 In combination with only certain configurable options, the [commit_syntax](/docs/commit_syntax.md) document outlines the best commit practices for use with Gilmer. Although it's possible to use your own commit syntax, there's no guarantee that the output will be as useful or consistent.
 
