@@ -46,6 +46,7 @@ node ./src/main.js <args>
 
 
 # How to Use
+Gilmer is a CLI tool **only**. It should be installed globally if you intend to use it for multiple projects. Because this tool is used solely for my projects, I had no need to create a help UI. Now that I'm making this tool public, the following details will have to serve as a surrogate help UI.
 ## Filename
 The default file name is `GitLog` and all spaces are stripped. This means `My Log` turns into `MyLog`.
 ```bash
