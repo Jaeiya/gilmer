@@ -9,7 +9,7 @@
         "state": {
           "type": "markdown",
           "state": {
-            "file": "ExampleLog.11_25_2021.md",
+            "file": "ExampleLog.11_29_2021.md",
             "mode": "preview"
           }
         }
@@ -52,8 +52,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 219.49999809265137,
-    "collapsed": true
+    "width": 219.49999809265137
   },
   "right": {
     "id": "7a64147733667e85",
@@ -69,7 +68,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "ExampleLog.11_25_2021.md",
+                "file": "ExampleLog.11_29_2021.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -81,7 +80,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "ExampleLog.11_25_2021.md"
+                "file": "ExampleLog.11_29_2021.md"
               }
             }
           }
@@ -95,6 +94,7 @@
   },
   "active": "79f56c7bb220241b",
   "lastOpenFiles": [
+    "ExampleLog.11_29_2021.md",
     "ExampleLog.11_25_2021.md",
     "Test.11_25_2021.md",
     "md_test.md",

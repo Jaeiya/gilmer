@@ -1,4 +1,4 @@
-# Example Log (11/25/2021)
+# ExampleLog (11/29/2021)
 
 ## Feat
 * add Git log parser ([b6ce577](https://github.com/Jaeiya/gilmer/commit/b6ce577)) `10-14-2021`
@@ -40,6 +40,7 @@
 **cli**
 * add multi-flag support and cli state object ([9481e78](https://github.com/Jaeiya/gilmer/commit/9481e78)) `11-21-2021`
 * add date flag and flag value handling ([02f76e7](https://github.com/Jaeiya/gilmer/commit/02f76e7)) `11-21-2021`
+* add `-until` flag to retrieve logs up to `-until` date ([c7374a9](https://github.com/Jaeiya/gilmer/commit/c7374a9)) `11-25-2021`
 
 ---
 
@@ -87,10 +88,14 @@
 **state**
 * use a generic default for `filename` ([a354c2d](https://github.com/Jaeiya/gilmer/commit/a354c2d)) `11-24-2021`
 
+**pretty_parser**
+* remove unnecessary `\n` chars from logs ([3bf0e72](https://github.com/Jaeiya/gilmer/commit/3bf0e72)) `11-25-2021`
+
 ---
 
 ## Docs
 * add `README.md` ([94b3263](https://github.com/Jaeiya/gilmer/commit/94b3263)) `11-24-2021`
+* add example log ([94dae84](https://github.com/Jaeiya/gilmer/commit/94dae84)) `11-25-2021`
 
 **commitsyntax**
 * add `docs` to allowed actions ([a54eeb6](https://github.com/Jaeiya/gilmer/commit/a54eeb6)) `10-24-2021`
@@ -99,6 +104,24 @@
 * Added clarifications and fixed grammar/emphasis ([ef2aa05](https://github.com/Jaeiya/gilmer/commit/ef2aa05)) `11-3-2021`
 * rename file and add work in progress section ([4cc0a8f](https://github.com/Jaeiya/gilmer/commit/4cc0a8f)) `11-24-2021`
 
+**readme**
+* clarify how to use Gilmer in its entirety ([4023104](https://github.com/Jaeiya/gilmer/commit/4023104)) `11-25-2021`
+* add `-to` flag info and remove deprecated `date` flag ([a609d88](https://github.com/Jaeiya/gilmer/commit/a609d88)) `11-25-2021`
+* fix missing file name in command flag examples ([22eeb59](https://github.com/Jaeiya/gilmer/commit/22eeb59)) `11-25-2021`
+* use gist for `sort_actions` link ([43362de](https://github.com/Jaeiya/gilmer/commit/43362de)) `11-25-2021`
+* demonstrate interchangeability of flags ([fbbedfb](https://github.com/Jaeiya/gilmer/commit/fbbedfb)) `11-26-2021`
+* clarify `verbose` flag further ([36b7e29](https://github.com/Jaeiya/gilmer/commit/36b7e29)) `11-26-2021`
+* add clarification for `to` flag ([39bd150](https://github.com/Jaeiya/gilmer/commit/39bd150)) `11-26-2021`
+* fix punctuation ([7f945a2](https://github.com/Jaeiya/gilmer/commit/7f945a2)) `11-26-2021`
+* Add `What is Gilmer` section and minor fixes ([af5a5a0](https://github.com/Jaeiya/gilmer/commit/af5a5a0)) `11-26-2021`
+* add extra info to opinionated section ([d6d7d58](https://github.com/Jaeiya/gilmer/commit/d6d7d58)) `11-26-2021`
+* fix `commit_syntax` link ([a713008](https://github.com/Jaeiya/gilmer/commit/a713008)) `11-26-2021`
+* use Obsidianite theme repository link instead of CSS ([d769ba4](https://github.com/Jaeiya/gilmer/commit/d769ba4)) `11-26-2021`
+* clarify `How to Use` with intro text ([677a6da](https://github.com/Jaeiya/gilmer/commit/677a6da)) `11-26-2021`
+* fix `overwhelm` being too vague ([358b731](https://github.com/Jaeiya/gilmer/commit/358b731)) `11-26-2021`
+* fix `non-configurable` being too vague ([085f1ca](https://github.com/Jaeiya/gilmer/commit/085f1ca)) `11-26-2021`
+* don't use filename for Commit Syntax link name ([fa2e668](https://github.com/Jaeiya/gilmer/commit/fa2e668)) `11-26-2021`
+
 ---
 
 ## Clean
@@ -106,6 +129,7 @@
 * rename `md_writer` to `pretty_parser` ([e99e4aa](https://github.com/Jaeiya/gilmer/commit/e99e4aa)) `11-3-2021`
 * enforce white-space rules and remove comments ([7625c6d](https://github.com/Jaeiya/gilmer/commit/7625c6d)) `11-4-2021`
 * move code files to `lib` dir ([a7b2a08](https://github.com/Jaeiya/gilmer/commit/a7b2a08)) `11-18-2021`
+* rename variables for clarity ([0d65c12](https://github.com/Jaeiya/gilmer/commit/0d65c12)) `11-27-2021`
 
 **md_writer**
 * refactor with clearer intent ([c170762](https://github.com/Jaeiya/gilmer/commit/c170762)) `10-26-2021`
@@ -124,6 +148,7 @@
 **sort_actions**
 * create `SortPriority` type and align props ([0611a5f](https://github.com/Jaeiya/gilmer/commit/0611a5f)) `11-4-2021`
 * rename `findOrder()` to `findPriority()` ([18ebb67](https://github.com/Jaeiya/gilmer/commit/18ebb67)) `11-4-2021`
+* explicitly define a `defaultOrder` ([b638f07](https://github.com/Jaeiya/gilmer/commit/b638f07)) `11-26-2021`
 
 **action_parser**
 * refactor logic and clarify types ([6b64dfb](https://github.com/Jaeiya/gilmer/commit/6b64dfb)) `11-5-2021`
@@ -140,5 +165,8 @@
 * ignore `bin` directory ([f037c48](https://github.com/Jaeiya/gilmer/commit/f037c48)) `11-17-2021`
 * add build-only `tsconfig` for `./src` ([6bd0f1c](https://github.com/Jaeiya/gilmer/commit/6bd0f1c)) `11-18-2021`
 * rename project to `gilmer` ([7814a3a](https://github.com/Jaeiya/gilmer/commit/7814a3a)) `11-24-2021`
+* add license ([5097f2e](https://github.com/Jaeiya/gilmer/commit/5097f2e)) `11-25-2021`
+* remove deprecated obsidian theme ([4eaf51d](https://github.com/Jaeiya/gilmer/commit/4eaf51d)) `11-29-2021`
+* push auto-updated settings ([8db785b](https://github.com/Jaeiya/gilmer/commit/8db785b)) `11-29-2021`
 
 ---
