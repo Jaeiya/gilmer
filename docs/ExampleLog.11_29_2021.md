@@ -121,6 +121,7 @@
 * fix `overwhelm` being too vague ([358b731](https://github.com/Jaeiya/gilmer/commit/358b731)) `11-26-2021`
 * fix `non-configurable` being too vague ([085f1ca](https://github.com/Jaeiya/gilmer/commit/085f1ca)) `11-26-2021`
 * don't use filename for Commit Syntax link name ([fa2e668](https://github.com/Jaeiya/gilmer/commit/fa2e668)) `11-26-2021`
+* update links to use proper file versions ([4cd92c7](https://github.com/Jaeiya/gilmer/commit/4cd92c7)) `11-29-2021`
 
 ---
 
@@ -168,5 +169,6 @@
 * add license ([5097f2e](https://github.com/Jaeiya/gilmer/commit/5097f2e)) `11-25-2021`
 * remove deprecated obsidian theme ([4eaf51d](https://github.com/Jaeiya/gilmer/commit/4eaf51d)) `11-29-2021`
 * push auto-updated settings ([8db785b](https://github.com/Jaeiya/gilmer/commit/8db785b)) `11-29-2021`
+* generate latest Example Log ([8ffb0b7](https://github.com/Jaeiya/gilmer/commit/8ffb0b7)) `11-29-2021`
 
 ---
