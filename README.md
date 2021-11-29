@@ -6,9 +6,10 @@ Through this process, I also realized how lazy I was about actually writing cons
 
 Gilmer is designed to display an overview of commit messages (not unlike a changelog), organized by action and context/subject. The order in which the actions appear, is hard-coded and a `./docs` folder is created at the working directory.
 
-If Gilmer is executed with no arguments, then the file will be created like so: `<WorkingDirectory>/docs/GitLog.MM_DD_YYYY.md`.
+If Gilmer is executed with no arguments, then the file will be created like so:
+`<WorkingDirectory>/docs/GitLog.MM_DD_YYYY.md`.
 
-With a real file, the date placeholders would be replaced by Today's date. For an example of what this looks like in practice, here's **this** repositories [Gilmer Output](/docs/ExampleLog.11_25_2021.md) without any flags.
+With a real file, the date placeholders would be replaced by Today's date. For an example of what this looks like in practice, here's **this** repositories [Gilmer Output](/docs/ExampleLog.11_29_2021.md) without any flags.
 
 You might be wondering why I have those horizontal lines after each block. It doesn't look very good in Github markdown, but it works very well with the [Obsidianite](https://github.com/bennyxguo/Obsidian-Obsidianite) theme I have installed for [Obsidian](https://obsidian.md/), which is what I use to write my docs.
 
@@ -103,7 +104,7 @@ This project was created for my use-case, with only the bare minimum configurati
 
 In combination with only certain configurable options, the [Commit Syntax](/docs/commit_syntax.md) document outlines the best commit practices for use with Gilmer. Although it's possible to use your own commit syntax, there's no guarantee that the output will be as useful or consistent.
 
-The priority configuration for **actions** is located in [sort_actions.ts](https://github.com/Jaeiya/gilmer/blob/22eeb59011582fe6e76a50cf69ed5c117bdbe212/src/lib/sort_actions.ts#L10-L16); it controls the order of actions in the log file.
+The priority configuration for **actions** is located in [sort_actions.ts](https://github.com/Jaeiya/gilmer/blob/8db785b5803279dbfab3128659bcbd8981e4716f/src/lib/sort_actions.ts#L10-L16); it controls the order of actions in the log file.
 
 > I may or may not add more configuration options/flags in the future, but **it is not a priority**.
 
