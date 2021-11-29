@@ -5,5 +5,9 @@
     "editorCursor.foreground": "#b3ff00",
     "titleBar.activeBackground": "#ffe48b",
     "titleBar.activeForeground": "#000000"
-  }
+  },
+  "cSpell.words": [
+    "Gilmer",
+    "Obsidianite"
+  ]
 }
