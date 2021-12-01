@@ -7,7 +7,11 @@
     "prettyfier",
     "deps",
     "Github",
-    "Dev"
+    "Dev",
+    "repo",
+    "config",
+    "config",
+    "cli"
   ],
   "spellcheck": true,
   "communityThemeSortOrder": "release"
