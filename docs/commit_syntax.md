@@ -2,12 +2,12 @@
 This is an opinionated guide on how to construct a commit message for this repository. The rules outlined in this guide are **not** optional and must be upheld in order to maintain consistency in the code-base. As you'll learn, this also reduces the mental overhead when reading commit messages.
 
 ## Commit Strategies
-When browsing other repositories, you'll notice many commit strategies that other Devs are using; not all strategies, however, are created equal. We're going to go over the predominate `3` that I've personally noticed when browsing some top repositories on GitHub.
+When browsing other repositories, you’ll notice many commit strategies that other Devs are using; not all strategies, however, are created equal. We’re going to go over the predominate `3` that I’ve personally noticed when browsing some top repositories on GitHub.
 
 ### **Minimalist**
 This is simply an action followed by a description; no special syntax required, just short and sweet. In a lot of cases, this approach is great, because it ensures the reader knows exactly what the commit is doing...however, you will inevitably lose context in the process of minimization.
 
-Let's take the example of `remove obsolete character attributes`. We know immediately what the commit is doing and why it's doing it. The problem is, we don't know "where" it's doing it. 
+Let's take the example of `remove obsolete character attributes`. We know immediately what the commit is doing and why it's doing it. The problem is, we don't know “where” it's doing it. 
 
 *Character* is a bit of an ambiguous term here, because throughout our code, we could have multiple references to a *Character*, whether that be strings, objects, or logic. 
 
