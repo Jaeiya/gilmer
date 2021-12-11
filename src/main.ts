@@ -8,12 +8,12 @@ import { exec, ExecException } from "child_process";
 import { dirname, basename } from "path";
 import { color as c } from "./lib/colors";
 import { state } from "./lib/state";
-import { handleCLIArgs } from "./lib/cli_handler";
 import { toFileNameWithDate } from "./lib/utilities";
+import { CLI } from "./lib/cli_handler";
 
 
 
-handleCLIArgs();
+CLI.handleArgs();
 
 Promise.resolve()
   .then(execAsync('git log --max-count=1', validateGitCommand))

@@ -6,17 +6,18 @@ import { state } from "./state";
 const [,,fileName,...flags] = process.argv;
 const c = color;
 
-
-export function handleCLIArgs() {
-  if (fileName && fileName.includes('-')) {
-    console.log(c.r('\n\n ERROR:'), c.y('Invalid File Name'));
-    console.log(c.g('\n  NOTE:', c.d('Flags must be typed after the File Name\n\n')));
-    process.exit(1);
+export namespace CLI {
+  export function handleArgs() {
+    if (fileName && fileName.includes('-')) {
+      console.log(c.r('\n\n ERROR:'), c.y('Invalid File Name'));
+      console.log(c.g('\n  NOTE:', c.d('Flags must be typed after the File Name\n\n')));
+      process.exit(1);
+    }
+    state.cli.filename = fileName ?? state.cli.filename;
+    state.cli.verbose = flags.includes('-v') || flags.includes('-verbose');
+    state.cli.dateSince = getDateFlag(flags, ['-from', '-since']);
+    state.cli.dateUntil = getDateFlag(flags, ['-to',   '-until']);
   }
-  state.cli.filename = fileName ?? state.cli.filename;
-  state.cli.verbose = flags.includes('-v') || flags.includes('-verbose');
-  state.cli.dateSince = getDateFlag(flags, ['-from', '-since']);
-  state.cli.dateUntil = getDateFlag(flags, ['-to',   '-until']);
 }
 
 
