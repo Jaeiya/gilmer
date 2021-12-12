@@ -41,12 +41,12 @@ export namespace CLI {
 
 
 function getDateFlag(flags: string[], dateFlags: string[]) {
-  const flagValue = flags.find(flag => !!dateFlags.find(dflag => flag.includes(dflag)));
-  const date = (flagValue && parseFlagValue(flagValue)) || null;
-  return (date && validateDate(date)) || null;
+  const dateFlag = flags.find(f => !!dateFlags.find(df => f.includes(df)));
+  const flagValue = (dateFlag && getFlagValue(dateFlag)) || null;
+  return (flagValue && getValidDate(flagValue)) || null;
 }
 
-function parseFlagValue(flag: string) {
+function getFlagValue(flag: string) {
   if (!flag.includes('=')) {
     logInvalidFlag(flag);
     process.exit(0);
@@ -54,7 +54,7 @@ function parseFlagValue(flag: string) {
   return flag.split('=')[1];
 }
 
-function validateDate(date: string) {
+function getValidDate(date: string) {
   if ((new Date(date)).toString() == 'Invalid Date') {
     logInvalidDate(date);
     process.exit(0);
