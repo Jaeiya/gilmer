@@ -1,6 +1,7 @@
 
 import { pipe } from "ramda";
 import { CommitAction, ActionContext, Log } from "./action_parser";
+import { CLI } from "./cli_handler";
 import { sortActions } from './sort_actions';
 import { state } from "./state";
 import { capitalize, toBlockquote, toMdBullet, toMdCode, toMdURL } from './utilities';
@@ -63,7 +64,7 @@ function appendLogs(action: CommitAction|ActionContext) {
 function toLogStr(pv: string, log: Log) {
   const hash = `(${log.hash})`;
   const date = `${log.date}`;
-  const body = state.cli.verbose
+  const body = CLI.Flags.getVerbose()
     ? `${log.body ? `${log.body}\n` : ''}`
     : ''
   ;

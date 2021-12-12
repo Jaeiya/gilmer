@@ -66,10 +66,10 @@ function writePrettyLogs(err: ExecException|null, out: string) {
   pipe(
     () => getLogsMetadata(out),
     parseLogsAsActionList,
-    getPrettyLog(state.cli.filename),
+    getPrettyLog(CLI.Flags.getFilename()),
     (prettyLog: string) =>
       writeFileSync(
-        `./docs/${toFileNameWithDate(state.cli.filename)}.md`,
+        `./docs/${toFileNameWithDate(CLI.Flags.getFilename())}.md`,
         prettyLog
       )
   )();
@@ -81,11 +81,13 @@ function tryCreateDocPath() {
 }
 
 function trySinceFlag() {
-  return state.cli.dateSince ? `--since="${state.cli.dateSince}"` : '';
+  const dateSince = CLI.Flags.getDateSince();
+  return dateSince ? `--since="${dateSince}"` : '';
 }
 
 function tryUntilFlag() {
-  return state.cli.dateUntil ? `--until="${state.cli.dateUntil}"` : '';
+  const dateUntil = CLI.Flags.getDateUntil();
+  return dateUntil ? `--until="${dateUntil}"` : '';
 }
 
 
