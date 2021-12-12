@@ -5,10 +5,10 @@ import { color as c } from "./colors";
 export namespace CLI {
 
   const state = {
-    filename  : '',
+    filename  : 'Git Log',
     verbose   : false as boolean,
-    dateSince : ''    as string|null,
-    dateUntil : ''    as string|null,
+    dateSince : null  as string|null,
+    dateUntil : null  as string|null,
   };
 
   export namespace Flags {
