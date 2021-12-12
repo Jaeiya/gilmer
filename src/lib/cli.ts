@@ -12,9 +12,13 @@ export namespace CLI {
   };
 
   export namespace Flags {
+    /** The filename to use when a log is saved. */
     export const getFilename  = () => state.filename;
+    /** Boolean to decide if the body of a commit message is visible */
     export const getVerbose   = () => state.verbose;
+    /** Date String that will be used to lookup logs **since** */
     export const getDateSince = () => state.dateSince;
+    /** Date String that will be used to lookup logs **until** */
     export const getDateUntil = () => state.dateUntil;
   }
 
