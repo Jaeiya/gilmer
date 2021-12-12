@@ -44,14 +44,7 @@ function getDateFlag(flags: string[], dateFlags: string[]) {
 
 function parseFlagValue(flag: string) {
   if (!flag.includes('=')) {
-    console.log(c.r('\n\n   ERROR:'), `${c.y('Malformed Flag')} ${c.r('(')}${c.w(flag)}${c.r(')')}`);
-    console.log(
-      c.g('\n    NOTE:',
-      c.d(
-`Flags are set using an equals sign.
-          If a value has spaces, wrap it in quotes.`)
-    ));
-    console.log(c.g('\n EXAMPLE:'), `${c.y('-')}from${c.y(`='`)}Aug 21, 2021${c.y(`'`)}\n\n`);
+    logInvalidFlag(flag);
     process.exit(0);
   }
   return flag.split('=')[1];
@@ -59,17 +52,32 @@ function parseFlagValue(flag: string) {
 
 function validateDate(date: string) {
   if ((new Date(date)).toString() == 'Invalid Date') {
-    console.log(c.r('\n\n   ERROR:'), `${c.y('Invalid Date')} ${c.r('(')}${c.w(date)}${c.r(')')} `);
-    console.log(
-      c.g('\n    NOTE:',
-      c.d(
-`Make sure you entered the date properly.
-          If it contains spaces, wrap it in quotes.`)
-    ));
-    console.log(c.g('\n EXAMPLE:'), `${c.y('-')}from${c.y(`='`)}Aug 21, 2021${c.y(`'`)}\n\n`);
+    logInvalidDate(date);
     process.exit(0);
   }
   return date;
+}
+
+function logInvalidFlag(flag: string) {
+  console.log(c.r('\n\n   ERROR:'), `${c.y('Malformed Flag')} ${c.r('(')}${c.w(flag)}${c.r(')')}`);
+  console.log(
+    c.g('\n    NOTE:'),
+    c.d(
+`Flags are set using an equals sign.
+        If a value has spaces, wrap it in quotes.`)
+  );
+  console.log(c.g('\n EXAMPLE:'), `${c.y('-')}from${c.y(`='`)}Aug 21, 2021${c.y(`'`)}\n\n`);
+}
+
+function logInvalidDate(date: string) {
+  console.log(c.r('\n\n   ERROR:'), `${c.y('Invalid Date')} ${c.r('(')}${c.w(date)}${c.r(')')} `);
+  console.log(
+    c.g('\n    NOTE:',
+    c.d(
+`Make sure you entered the date properly.
+        If it contains spaces, wrap it in quotes.`)
+  ));
+  console.log(c.g('\n EXAMPLE:'), `${c.y('-')}from${c.y(`='`)}Aug 21, 2021${c.y(`'`)}\n\n`);
 }
 
 
