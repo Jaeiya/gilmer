@@ -1,5 +1,5 @@
 
-import { color } from './colors';
+import { color as c } from './colors';
 
 
 
@@ -12,9 +12,6 @@ export type LogMetadata = [
   hash    : string,
 ];
 
-
-
-const c = color;
 
 
 export function getLogsMetadata(rawLog: string) {

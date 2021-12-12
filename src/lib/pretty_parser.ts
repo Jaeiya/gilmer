@@ -2,8 +2,8 @@
 import { pipe } from "ramda";
 import { CommitAction, ActionContext, Log } from "./action_parser";
 import { CLI } from "./cli";
+import { GIT } from "./git";
 import { sortActions } from './sort_actions';
-import { state } from "./state";
 import { capitalize, toBlockquote, toMdBullet, toMdCode, toMdURL } from './utilities';
 
 
@@ -40,7 +40,7 @@ function applyLogMarkdown(log: Log) {
     msg: toMdBullet(msg),
     body: body && toBlockquote(body),
     date: toMdCode(date),
-    hash: toMdURL(hash, state.repoURL)
+    hash: toMdURL(hash, GIT.getRemoteURL())
   } as Log;
 }
 
