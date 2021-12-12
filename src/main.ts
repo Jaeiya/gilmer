@@ -13,7 +13,7 @@ import { CLI } from "./lib/cli";
 
 
 
-CLI.handleArgs();
+CLI.processArgs();
 
 Promise.resolve()
   .then(execAsync('git log --max-count=1', validateGitCommand))

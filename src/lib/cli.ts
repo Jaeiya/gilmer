@@ -18,7 +18,7 @@ export namespace CLI {
     export const getDateUntil = () => state.dateUntil;
   }
 
-  export function handleArgs() {
+  export function processArgs() {
     const [,,fileName,...flags] = process.argv;
 
     if (fileName && fileName.includes('-')) {
