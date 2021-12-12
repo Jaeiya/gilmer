@@ -1,39 +1,39 @@
-import { color } from "./colors";
+import { color as c } from "./colors";
 
-
-
-const [,,fileName,...flags] = process.argv;
-const c = color;
-const cliState = {
-  filename: '',
-  verbose: false as boolean,
-  dateSince: '' as string|null,
-  dateUntil: '' as string|null,
-};
 
 
 export namespace CLI {
 
-  export namespace Flags {
-    export const getFilename  = () => cliState.filename;
-    export const getVerbose   = () => cliState.verbose;
-    export const getDateSince = () => cliState.dateSince;
-    export const getDateUntil = () => cliState.dateUntil;
-  }
+  const state = {
+    filename  : '',
+    verbose   : false as boolean,
+    dateSince : ''    as string|null,
+    dateUntil : ''    as string|null,
+  };
 
+  export namespace Flags {
+    export const getFilename  = () => state.filename;
+    export const getVerbose   = () => state.verbose;
+    export const getDateSince = () => state.dateSince;
+    export const getDateUntil = () => state.dateUntil;
+  }
 
   export function handleArgs() {
+    const [,,fileName,...flags] = process.argv;
+
     if (fileName && fileName.includes('-')) {
       console.log(c.r('\n\n ERROR:'), c.y('Invalid File Name'));
-      console.log(c.g('\n  NOTE:', c.d('Flags must be typed after the File Name\n\n')));
+      console.log(c.g('\n  NOTE:'),    c.d('Flags must be typed after the File Name\n\n'));
       process.exit(1);
     }
-    cliState.filename  = fileName ?? cliState.filename;
-    cliState.verbose   = flags.includes('-v') || flags.includes('-verbose');
-    cliState.dateSince = getDateFlag(flags, ['-from', '-since']);
-    cliState.dateUntil = getDateFlag(flags, ['-to',   '-until']);
+    state.filename  = fileName ?? state.filename;
+    state.verbose   = flags.includes('-v') || flags.includes('-verbose');
+    state.dateSince = getDateFlag(flags, ['-from', '-since']);
+    state.dateUntil = getDateFlag(flags, ['-to',   '-until']);
   }
+
 }
+
 
 
 function getDateFlag(flags: string[], dateFlags: string[]) {
