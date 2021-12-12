@@ -1,7 +1,7 @@
 
 import { pipe } from "ramda";
 import { CommitAction, ActionContext, Log } from "./action_parser";
-import { CLI } from "./cli_handler";
+import { CLI } from "./cli";
 import { sortActions } from './sort_actions';
 import { state } from "./state";
 import { capitalize, toBlockquote, toMdBullet, toMdCode, toMdURL } from './utilities';

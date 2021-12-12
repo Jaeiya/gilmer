@@ -9,7 +9,7 @@ import { dirname, basename } from "path";
 import { color as c } from "./lib/colors";
 import { state } from "./lib/state";
 import { toFileNameWithDate } from "./lib/utilities";
-import { CLI } from "./lib/cli_handler";
+import { CLI } from "./lib/cli";
 
 
 
