@@ -11,7 +11,7 @@ export namespace CLI {
     dateUntil : null  as string|null,
   };
 
-  export namespace Flags {
+  export namespace Args {
     /** The filename to use when a log is saved. */
     export const getFilename  = () => state.filename;
     /** Boolean to decide if the body of a commit message is visible */
@@ -23,7 +23,7 @@ export namespace CLI {
   }
 
   export function processArgs() {
-    const [,,fileName,...flags] = process.argv;
+    const [,,fileName,...args] = process.argv;
 
     if (fileName && fileName.includes('-')) {
       console.log(c.r('\n\n ERROR:'), c.y('Invalid File Name'));
@@ -31,27 +31,27 @@ export namespace CLI {
       process.exit(1);
     }
     state.filename  = fileName ?? state.filename;
-    state.verbose   = flags.includes('-v') || flags.includes('-verbose');
-    state.dateSince = getDateFlag(flags, ['-from', '-since']);
-    state.dateUntil = getDateFlag(flags, ['-to',   '-until']);
+    state.verbose   = args.includes('-v') || args.includes('-verbose');
+    state.dateSince = getDateArg(args, ['-from', '-since']);
+    state.dateUntil = getDateArg(args, ['-to',   '-until']);
   }
 
 }
 
 
 
-function getDateFlag(flags: string[], dateFlags: string[]) {
-  const dateFlag = flags.find(f => !!dateFlags.find(df => f.includes(df)));
-  const flagValue = (dateFlag && getFlagValue(dateFlag)) || null;
-  return (flagValue && getValidDate(flagValue)) || null;
+function getDateArg(args: string[], dateArgs: string[]) {
+  const dateArg = args.find(f => !!dateArgs.find(df => f.includes(df)));
+  const argValue = (dateArg && getArgValue(dateArg)) || null;
+  return (argValue && getValidDate(argValue)) || null;
 }
 
-function getFlagValue(flag: string) {
-  if (!flag.includes('=')) {
-    logInvalidFlag(flag);
+function getArgValue(arg: string) {
+  if (!arg.includes('=')) {
+    logInvalidFlag(arg);
     process.exit(0);
   }
-  return flag.split('=')[1];
+  return arg.split('=')[1];
 }
 
 function getValidDate(date: string) {

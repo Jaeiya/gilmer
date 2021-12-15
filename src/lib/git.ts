@@ -18,11 +18,12 @@ const state = {
   formatFlag: '--pretty="format:%h|%ci|%s|%b^@^"'
 };
 
+
 export namespace GIT {
 
   export const getRemoteURL = () => state.remoteURL;
 
-  export function setup() {
+  export function init() {
     return Promise.resolve()
       .then(execAsync('git log --max-count=1', {isSetup: false, cb: validateGitExists}))
       .then(execAsync('git config --get remote.origin.url', {isSetup: false, cb: setRemoteRepoURL}))
@@ -35,6 +36,7 @@ export namespace GIT {
       { isSetup: true, cb }
     );
   }
+
 }
 
 
@@ -85,11 +87,11 @@ function logSetupError() {
 }
 
 function trySinceFlag() {
-  const dateSince = CLI.Flags.getDateSince();
+  const dateSince = CLI.Args.getDateSince();
   return dateSince ? `--since="${dateSince}"` : '';
 }
 
 function tryUntilFlag() {
-  const dateUntil = CLI.Flags.getDateUntil();
+  const dateUntil = CLI.Args.getDateUntil();
   return dateUntil ? `--until="${dateUntil}"` : '';
 }

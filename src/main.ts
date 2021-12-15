@@ -14,7 +14,7 @@ import { GIT } from "./lib/git";
 
 CLI.processArgs();
 GIT
-  .setup()
+  .init()
   .then(tryCreateDocPath)
   .then(GIT.log(writePrettyLogs))
 ;
@@ -29,10 +29,10 @@ function writePrettyLogs(err: ExecException|null, out: string) {
   pipe(
     () => getLogsMetadata(out),
     parseLogsAsActionList,
-    getPrettyLog(CLI.Flags.getFilename()),
+    getPrettyLog(CLI.Args.getFilename()),
     (prettyLog: string) =>
       writeFileSync(
-        `./docs/${toFileNameWithDate(CLI.Flags.getFilename())}.md`,
+        `./docs/${toFileNameWithDate(CLI.Args.getFilename())}.md`,
         prettyLog
       )
   )();
