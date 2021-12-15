@@ -5,3 +5,4 @@ bin/*
 *.map
 test.txt
 *.tsbuildinfo
+scratch.ts
