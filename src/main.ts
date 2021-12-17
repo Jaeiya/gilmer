@@ -1,41 +1,41 @@
 #!/usr/bin/env node
-import { parseLogsAsActionList } from "./lib/action_parser";
-import { getLogsMetadata } from "./lib/log_parser";
-import { getPrettyLog } from "./lib/pretty_parser";
+import { gitLogToActionArray } from "./lib/log_parser";
+import { createPrettyLog } from "./lib/pretty_parser";
 import { existsSync, mkdirSync, writeFileSync } from "fs";
-import { pipe } from "ramda";
-import { ExecException } from "child_process";
 import { color as c } from "./lib/colors";
-import { toFileNameWithDate } from "./lib/utilities";
 import { CLI } from "./lib/cli";
 import { GIT } from "./lib/git";
+import { ExecException } from "child_process";
 
 
 
 CLI.processArgs();
+
 GIT
   .init()
   .then(tryCreateDocPath)
-  .then(GIT.log(writePrettyLogs))
+  .then(GIT.log(checkForLogException))
+  .then(gitLogToActionArray)
+  .then(createPrettyLog(CLI.Args.getFilename()))
+  .then(writePrettyLog)
 ;
 
 
-function writePrettyLogs(err: ExecException|null, out: string) {
+function checkForLogException(err: ExecException|null, out: string) {
   if (err) {
     console.log(c.r('\nError Executing Command:\n'));
     console.log(c.y(err.message));
-    return;
+    process.exit(1);
   }
-  pipe(
-    () => getLogsMetadata(out),
-    parseLogsAsActionList,
-    getPrettyLog(CLI.Args.getFilename()),
-    (prettyLog: string) =>
-      writeFileSync(
-        `./docs/${toFileNameWithDate(CLI.Args.getFilename())}.md`,
-        prettyLog
-      )
-  )();
+  return out;
+}
+
+
+function writePrettyLog(log: string) {
+  writeFileSync(
+    `./docs/${toFileNameWithDate(CLI.Args.getFilename())}.md`,
+    log
+  );
 }
 
 function tryCreateDocPath() {

@@ -1,16 +1,14 @@
 
 import { pipe } from "ramda";
-import { CommitAction, ActionContext, Log } from "./action_parser";
 import { CLI } from "./cli";
 import { GIT } from "./git";
-import { sortActions } from './sort_actions';
+import { CommitAction, Log } from "./log_parser";
 import { capitalize, toBlockquote, toMdBullet, toMdCode, toMdURL } from './utilities';
 
 
-export function getPrettyLog(title: string) {
+export function createPrettyLog(title: string) {
   return (actions: CommitAction[]) => {
     if (!actions.length) throw Error('Missing actions array!');
-    sortActions(actions);
     return appendTitle(title)(actions.reduce(toPrettyLog, ''));
   };
 }
@@ -57,7 +55,7 @@ function appendActionName(action: CommitAction) {
   return (str: string) => `${str}\n## ${capitalize(action.name)}\n`;
 }
 
-function appendLogs(action: CommitAction|ActionContext) {
+function appendLogs(action: CommitAction) {
   return (str: string) => action.logs.reduce(toLogStr, str);
 }
 

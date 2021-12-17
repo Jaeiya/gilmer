@@ -8,7 +8,7 @@ type ExecAsyncOptions = {
   /** Whether or not GIT needs to be setup for callback */
   isSetup: boolean;
   /** Callback */
-  cb: (err: ExecException|null, out: string) => void;
+  cb: (err: ExecException|null, out: string) => any;
 }
 
 
@@ -30,7 +30,7 @@ export namespace GIT {
       .then(() => state.isSetup = true);
   }
 
-  export function log(cb: (err: ExecException|null, out: string) => void) {
+  export function log(cb: (err: ExecException|null, out: string) => string) {
     return execAsync(
       `git log ${trySinceFlag()} ${tryUntilFlag()} ${state.formatFlag}`,
       { isSetup: true, cb }
@@ -41,14 +41,13 @@ export namespace GIT {
 
 
 function execAsync(command: string, options: ExecAsyncOptions) {
-  return () => new Promise((rs) => {
+  return (): Promise<any> => new Promise((rs) => {
     exec(command, (err, out) => {
       if (state.isSetup != options.isSetup) {
         logSetupError();
         process.exit(1);
       }
-      options.cb(err, out);
-      rs(void(0));
+      rs(options.cb(err, out));
     });
   });
 }
