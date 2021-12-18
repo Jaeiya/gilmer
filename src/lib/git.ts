@@ -15,6 +15,7 @@ type ExecAsyncOptions = {
 const state = {
   isSetup: false,
   remoteURL: null as string|null,
+  currentBranch: null as string|null,
   formatFlag: '--pretty="format:%h|%ci|%s|%b^@^"'
 };
 
@@ -25,9 +26,15 @@ export namespace GIT {
 
   export function init() {
     return Promise.resolve()
-      .then(execAsync('git log --max-count=1', {isSetup: false, cb: validateGitExists}))
+      .then(execAsync('git branch --show-current', {isSetup: false, cb: validateGitExists}))
       .then(execAsync('git config --get remote.origin.url', {isSetup: false, cb: setRemoteRepoURL}))
-      .then(() => state.isSetup = true);
+      .then(() => {
+        state.isSetup = true;
+        return {
+          hasRemote: !!state.remoteURL,
+          branch: state.currentBranch,
+        };
+      });
   }
 
   export function log(cb: (err: ExecException|null, out: string) => string) {
@@ -47,32 +54,23 @@ function execAsync(command: string, options: ExecAsyncOptions) {
         logSetupError();
         process.exit(1);
       }
-      rs(options.cb(err, out));
+      // setTimeout(() => rs(options.cb(err, out)), 1000);
+      rs(options.cb(err, out))
     });
   });
 }
 
-function validateGitExists(err: ExecException|null) {
+function validateGitExists(err: ExecException|null, out: string) {
   if (err) {
     console.log(c.r('\n\n ERROR: ') + c.y('Missing GIT Command or Commits') + '\n');
     process.exit(1);
   }
+  state.currentBranch = out.trim();
 }
 
 function setRemoteRepoURL(err: ExecException|null, out: string) {
-  if (err) return logLocalRepoOnly();
+  if (err) return;
   state.remoteURL = `${dirname(out)}/${basename(out.trim(), '.git')}`;
-}
-
-function logLocalRepoOnly() {
-  console.log(c.r('\n\n WARNING: ') + c.y('Local Repository Only'));
-  console.log(
-    c.g('\n    NOTE: ') +
-    c.d('Commit hashes will ') +
-    c.r('not ') +
-    c.d('be ') +
-    c.w('clickable\n\n')
-  );
 }
 
 function logSetupError() {
