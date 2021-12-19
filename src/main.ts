@@ -45,11 +45,8 @@ function printRepoStatus(status: {hasRemote: boolean, branch: string|null}) {
   log('repo', cc.w(`Found current branch: ${cc.gnb(status.branch!)}`));
   if (!status.hasRemote) {
     warn('repo',
-      cc.w('Remote origin:'),
-      cc.ywb('not found\n'),
-      cc.w('          Hashes will'),
-      cc.ywb('not'),
-      cc.w('be clickable in the generated log!')
+      cc.w('Remote origin:'), cc.ywb('not found'),
+      cc.w('\nHashes will'), cc.ywb('not'), cc.w('be clickable in the generated log!')
     );
   }
 }
