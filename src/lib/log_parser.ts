@@ -135,9 +135,9 @@ function tryCreateAction(name: string, actions: CommitAction[]) {
 
 function sortActions(actions: CommitAction[]) {
   actions.sort((a, b) => {
-    const a1 = findPriority(a.name);
-    const b1 = findPriority(b.name);
-    return a1[1] - b1[1];
+    const [,aPriority] = findPriority(a.name);
+    const [,bPriority] = findPriority(b.name);
+    return aPriority - bPriority;
   });
   return actions;
 }
