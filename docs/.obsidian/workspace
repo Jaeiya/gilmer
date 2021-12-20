@@ -1,16 +1,16 @@
 {
   "main": {
-    "id": "82e2814b8e5e5dde",
+    "id": "c3b7e0aa1a3a46f8",
     "type": "split",
     "children": [
       {
-        "id": "79f56c7bb220241b",
+        "id": "d6c529e0980ba015",
         "type": "leaf",
         "state": {
           "type": "markdown",
           "state": {
-            "file": "ExampleLog.11_29_2021.md",
-            "mode": "preview"
+            "file": "commit_syntax.md",
+            "mode": "source"
           }
         }
       }
@@ -68,7 +68,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "ExampleLog.11_29_2021.md",
+                "file": "commit_syntax.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -80,7 +80,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "ExampleLog.11_29_2021.md"
+                "file": "commit_syntax.md"
               }
             }
           }
@@ -89,18 +89,19 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
-  "active": "79f56c7bb220241b",
+  "active": "d6c529e0980ba015",
   "lastOpenFiles": [
+    "commit_syntax.md",
+    "GitLog.12_20_2021.md",
+    "GitLog.12_17_2021.md",
+    "GitLog.12_16_2021.md",
+    "ExampleLog.12_11_2021.md",
+    "GitLog.12_11_2021.md",
     "ExampleLog.11_29_2021.md",
     "ExampleLog.11_25_2021.md",
     "Test.11_25_2021.md",
-    "md_test.md",
-    "GitLog.11_24_2021.md",
-    "commit_syntax.md",
-    "Temp.md",
-    "PROCESS.md"
+    "md_test.md"
   ]
 }
