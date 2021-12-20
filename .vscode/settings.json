@@ -3,8 +3,6 @@
     "editorInlayHint.background": "#49463f",
     "editorInlayHint.foreground": "#d4d0c1",
     "editorCursor.foreground": "#b3ff00",
-    "titleBar.activeBackground": "#ffe48b",
-    "titleBar.activeForeground": "#000000"
   },
   "cSpell.words": [
     "Gilmer",
