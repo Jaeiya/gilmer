@@ -2,7 +2,10 @@ import chalk from 'chalk';
 
 
 
-type ConsoleColor = 'red'|'green'|'greenBright'|'yellow'|'gray'|'yellowBright'|'white';
+type ConsoleColor =
+  'red'|'green'|'greenBright'|
+  'yellow'|'gray'|'yellowBright'|
+  'white'|'whiteBright';
 
 
 
@@ -42,6 +45,7 @@ export namespace Logger {
     ywb : tryColor('yellowBright'),
     gy  : tryColor('gray'),
     w   : tryColor('white'),
+    wb  : tryColor('whiteBright'),
   };
 
   /** Info Log */
