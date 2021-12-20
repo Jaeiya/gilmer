@@ -90,7 +90,7 @@ If a commit requires greater context, then an *action* can be supplied with a *s
 
 > A commit can never be formatted any other way than what has been described above...**unless** a pull request is merged.
 
-### **Allowed Actions**
+### Allowed Actions
 **New Feature:** `feat`
 New functionality. Any code changes that add functionality; it's really that simple.
 
@@ -121,7 +121,7 @@ Something that must be done out of necessity: Updating/fixing/adding/removing de
 **Cascading Style Sheets:** `css`
 Cascading Style Sheet changes, but only when CSS is the only code being changed, otherwise it's probably best to use a different action. Again, as stated earlier under `fix`, if you fix a CSS-only bug, it should go under the `css` action.
 
-### **Deprecated Actions**
+### Deprecated Actions
 - `add` - now falls under `feat`
 - `update/upd` - now falls under `chg`
 - `rename/refactor` - now falls under `clean`
