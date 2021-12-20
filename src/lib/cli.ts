@@ -51,6 +51,7 @@ function validateArgOrder(filename: string|undefined) {
   }
 }
 
+
 function validateFileName(filename: string|undefined) {
   if (filename && !filename.match(/^[a-zA-Z0-9 ]+$/g)) {
     logError('error', cc.ywb('Invalid File Name'));
@@ -70,6 +71,7 @@ function getDateArg(args: string[], dateArgs: string[]) {
   return (argValue && getValidDate(dateArg!.split('=')[0], argValue)) || null;
 }
 
+
 function getArgValue(arg: string) {
   if (!arg.includes('=')) {
     logInvalidArg(arg);
@@ -77,6 +79,7 @@ function getArgValue(arg: string) {
   }
   return arg.split('=')[1];
 }
+
 
 function getValidDate(dateArg: string, date: string) {
   if ((new Date(date)).toString() == 'Invalid Date') {
@@ -86,6 +89,7 @@ function getValidDate(dateArg: string, date: string) {
   return date;
 }
 
+
 function logInvalidArg(arg: string) {
   logError('error', cc.yw('Malformed Argument'), cc.rd(`(${cc.wb(arg)})`));
   logWarn('info',
@@ -94,6 +98,7 @@ function logInvalidArg(arg: string) {
   );
   log('usage', cc.w(`gilmer <filename> ${arg}=<value>`));
 }
+
 
 function logInvalidDate(dateArg: string, date: string) {
   logError('error', cc.yw('Invalid Date'), cc.rd(`(${cc.wb(date)})`));
