@@ -1,6 +1,6 @@
 
 import { map, pipe, reverse } from 'ramda';
-import { color as c } from './colors';
+import { Logger } from './logger';
 
 
 
@@ -31,6 +31,9 @@ type CommitMsgParts = [actionContext: string, text: string];
 type SortPriority = [name: string, priority: number];
 
 
+const cc = Logger.console_colors;
+const logError = Logger.lErr;
+const logWarn = Logger.lWarn;
 
 const actionOrder: SortPriority[] = [
   ['feat'  , 1],
@@ -54,16 +57,18 @@ export function gitLogToActionArray(gitLog: string) {
   )(logLines);
 }
 
+
 function validateLog(rawLog: string) {
   if (!rawLog.trim()) {
-    console.log(`\n ${c.r('ERROR:')} ${c.y('No Logs Found')}\n`);
-    console.log(
-`  ${c.g('NOTE:')} Make sure you've made at least one commit.
-        If you've set a ${c.w('-from')} date, make sure it predates current changes.\n\n`
+    logError('error', cc.yw('No Logs Found'));
+    logWarn('info',
+      cc.w('Make sure you\'ve made at least one commit.'),
+      cc.w(`\nIf you've set a ${cc.wb('-from')} date, make sure it predates current changes`)
     );
     process.exit(0);
   }
 }
+
 
 function toLogMetadata(logLine: string) {
   const commitParts = logLine.trim().split('|');
@@ -80,6 +85,7 @@ function toLogMetadata(logLine: string) {
   ] as LogMetadata;
 }
 
+
 function getAction(actionContext: string) {
   const action =
     actionContext.includes('(')
@@ -88,6 +94,7 @@ function getAction(actionContext: string) {
   ;
   return action.replace(':', '').toLowerCase();
 }
+
 
 function getContext(actionContext: string) {
   const subject =
@@ -98,6 +105,7 @@ function getContext(actionContext: string) {
   return subject;
 }
 
+
 function getMsgText(commitMsg: string) {
   if (commitMsg.includes(':')) {
     return commitMsg.split(':', 2)[1].trim();
@@ -105,9 +113,11 @@ function getMsgText(commitMsg: string) {
   return commitMsg;
 }
 
+
 function toLocaleDateStr(isoDate: string) {
   return new Date(isoDate).toLocaleDateString().replace(/\//g, '-');
 }
+
 
 function toActionArray(logs: LogMetadata[]) {
   const actions: CommitAction[] = [];
@@ -125,6 +135,7 @@ function toActionArray(logs: LogMetadata[]) {
   return actions;
 }
 
+
 function tryCreateAction(name: string, actions: CommitAction[]) {
   let action = actions.find(a => a.name == name);
   if (action) return action;
@@ -132,6 +143,7 @@ function tryCreateAction(name: string, actions: CommitAction[]) {
   actions.push(action);
   return action;
 }
+
 
 function sortActions(actions: CommitAction[]) {
   actions.sort((a, b) => {
@@ -141,6 +153,7 @@ function sortActions(actions: CommitAction[]) {
   });
   return actions;
 }
+
 
 function findPriority(name: string) {
   const defaultOrder: SortPriority = ['', actionOrder.length + 1];
