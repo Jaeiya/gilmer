@@ -62,10 +62,7 @@ function appendLogs(action: CommitAction) {
 function toLogStr(pv: string, log: Log) {
   const hash = `(${log.hash})`;
   const date = `${log.date}`;
-  const body = CLI.Args.getVerbose()
-    ? `${log.body ? `${log.body}\n` : ''}`
-    : ''
-  ;
+  const body = (CLI.Args.getVerbose() && log.body) ? `${log.body}\n` : '';
   return `${pv}${log.msg} ${hash} ${date}\n${body}`;
 }
 
