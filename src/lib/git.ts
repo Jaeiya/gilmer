@@ -1,7 +1,9 @@
 import { exec, ExecException } from "node:child_process";
 import { basename, dirname } from "node:path";
 import { CLI } from "./cli";
-import { color as c } from "./colors";
+import { Logger } from "./logger";
+
+
 
 
 type ExecAsyncOptions = {
@@ -11,6 +13,11 @@ type ExecAsyncOptions = {
   cb: (err: ExecException|null, out: string) => any;
 }
 
+
+
+const cc = Logger.console_colors;
+const logError = Logger.lErr;
+const logWarn = Logger.lWarn;
 
 const state = {
   isSetup: false,
@@ -51,18 +58,17 @@ function execAsync(command: string, options: ExecAsyncOptions) {
   return (): Promise<any> => new Promise((rs) => {
     exec(command, (err, out) => {
       if (state.isSetup != options.isSetup) {
-        logSetupError();
+        logInitError();
         process.exit(1);
       }
-      // setTimeout(() => rs(options.cb(err, out)), 1000);
-      rs(options.cb(err, out))
+      rs(options.cb(err, out));
     });
   });
 }
 
 function validateGitExists(err: ExecException|null, out: string) {
   if (err) {
-    console.log(c.r('\n\n ERROR: ') + c.y('Missing GIT Command or Commits') + '\n');
+    logError('error', cc.yw('Missing GIT Command or Commits:'), cc.rdb('FATAL'));
     process.exit(1);
   }
   state.currentBranch = out.trim();
@@ -73,14 +79,9 @@ function setRemoteRepoURL(err: ExecException|null, out: string) {
   state.remoteURL = `${dirname(out)}/${basename(out.trim(), '.git')}`;
 }
 
-function logSetupError() {
-  console.log(c.r('\n\n ERROR: ') + c.y('Executing GIT actions before GIT.setup() call'));
-  console.log(
-    c.g('\n    NOTE: ') +
-    c.d('Make sure you call ') +
-    c.g('GIT.setup() ') +
-    c.d('before you use any other GIT methods.\n\n')
-  );
+function logInitError() {
+  logError('error', cc.yw('Executing GIT actions before GIT.init() call:'), cc.rdb('FATAL'));
+  logWarn('info', cc.w(`Make sure you call ${cc.gn('GIT.init()')} before you use any other GIT functions`));
 }
 
 function trySinceFlag() {
