@@ -15,8 +15,9 @@ export function createPrettyLog(title: string) {
 
 
 function appendTitle(title: string) {
+  const dateStr = new Date().toLocaleDateString();
   return (str: string) =>
-    `# ${capitalize(title)} (${getDateNow()})\n${str}`
+    `# ${capitalize(title)} (${dateStr})\n${str}`
   ;
 }
 
@@ -80,17 +81,6 @@ function appendLogsWithSubjects(action: CommitAction) {
 function appendHorizontalLine(str: string) {
   return `${str}\n---\n`;
 }
-
-function getDateNow() {
-  const d = new Date();
-  const dateStr = d.toLocaleDateString();
-  return `${dateStr}`;
-}
-
-
-
-
-
 
 
 
