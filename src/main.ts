@@ -2,7 +2,6 @@
 import { gitLogToActionArray } from "./lib/log_parser";
 import { createPrettyLog } from "./lib/pretty_parser";
 import { existsSync, mkdirSync, writeFileSync } from "fs";
-import { color as c } from "./lib/colors";
 import { CLI } from "./lib/cli";
 import { GIT } from "./lib/git";
 import { ExecException } from "child_process";
@@ -10,13 +9,14 @@ import { resolve, sep } from "path";
 import { Logger } from "./lib/logger";
 
 
-const docsPath = './pickles';
+const docsPath = './docs';
 
 // Setup Logger
 Logger.setMaxTagLength(10);
 // Logger.setLineSpacing(1);
 const log  = Logger.lInfo;
-const warn = Logger.lWarn;
+const logWarn = Logger.lWarn;
+const logError = Logger.lErr;
 const cc   = Logger.console_colors;
 
 // Add space to beginning
@@ -35,20 +35,21 @@ GIT
   .then(writePrettyLog)
   .then((path) => {
     log('done', cc.gy(truncatePath(path)), cc.ywb('written'));
-    console.log('');
-  }) // Add trailing new line
+    console.log(''); // Add trailing new line
+  })
 ;
 
 
 function printRepoStatus(status: {hasRemote: boolean, branch: string|null}) {
   log('repo', cc.w(`Found current branch: ${cc.gnb(status.branch!)}`));
   if (!status.hasRemote) {
-    warn('repo',
+    logWarn('repo',
       cc.w('Remote origin:'), cc.ywb('not found'),
       cc.w('\nHashes will'), cc.ywb('not'), cc.w('be clickable in the generated log!')
     );
   }
 }
+
 
 function printDocPath(result: {path: string, status: string}) {
   const {path,status} = result;
@@ -57,16 +58,20 @@ function printDocPath(result: {path: string, status: string}) {
   log('info', cc.gy(`${fullPath}`), statusText);
 }
 
+
 function printLoadedLogLines(gitLog: string) {
-  log('info', cc.w('Logs:'), cc.gnb(gitLog.split('\n').length.toString()));
-  log('info', cc.w('Logs:'), cc.ywb('processing...'));
+  log('info',
+    cc.w('Logs:'), cc.gnb(gitLog.split('\n').length.toString()),
+    cc.gy('|>'), cc.ywb('processing...')
+  );
   return gitLog;
 }
 
+
 function checkForLogException(err: ExecException|null, out: string) {
   if (err) {
-    console.log(c.r('\nError Executing Command:\n'));
-    console.log(c.y(err.message));
+    logError('error', cc.yw('Error Executing Command:'), cc.rdb('FATAL'));
+    logError('info', cc.ywb(err.message));
     process.exit(1);
   }
   return out;
@@ -83,6 +88,7 @@ function writePrettyLog(log: string) {
   return filePath;
 }
 
+
 function tryCreateDocPath() {
   const path = resolve(docsPath);
   const result = { path, status: '' };
@@ -93,6 +99,7 @@ function tryCreateDocPath() {
   }
   return result;
 }
+
 
 function truncatePath(path: string): string {
   const pathParts = path.split(sep);
