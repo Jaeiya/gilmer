@@ -64,7 +64,7 @@ function tryColor(color: ConsoleColor) {
 function log(tagName: string, color: keyof typeof cc, ...text: string[]) {
   if (!state.enabled) return;
   const colorFn = cc[color];
-  const msg = indentNewLines(toTag(tagName) + text.join(' '));
+  const msg = toTag(tagName) + indentNewLines(text.join(' ')).trim();
   console.log(colorFn(msg), spaceLines());
 }
 
@@ -78,19 +78,15 @@ function toTag(tagName: string) {
 }
 
 
-function indentNewLines(str: string) {
-  if (!str.includes('\n')) return str;
-
-  const lines            = str.split('\n');
-  const firstLine        = lines.shift(); // Do not indent TAG
-  const indentedLinesStr = lines.reduce(toIndentedNewLine, '');
-
-  return firstLine + indentedLinesStr;
+function indentNewLines(str: string, padding = 1) {
+  return (
+    str.split('\n').map(indentLine).join(`\n${' '.repeat(padding)}`)
+  );
 }
 
 
-function toIndentedNewLine(acc: string, str: string) {
-  return `${acc}\n ${' '.repeat(state.maxTagLength)}${str}`;
+function indentLine(str: string) {
+  return `${' '.repeat(state.maxTagLength)}${str}`;
 }
 
 
