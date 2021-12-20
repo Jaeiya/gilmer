@@ -3,8 +3,10 @@ import chalk from 'chalk';
 
 
 type ConsoleColor =
-  'red'|'green'|'greenBright'|
-  'yellow'|'gray'|'yellowBright'|
+  'red'|'redBright'|
+  'green'|'greenBright'|
+  'yellow'|'yellowBright'|
+  'gray'|
   'white'|'whiteBright';
 
 
@@ -39,6 +41,7 @@ export namespace Logger {
 
   export const console_colors = {
     rd  : tryColor('red'),
+    rdb : tryColor('redBright'),
     gn  : tryColor('green'),
     gnb : tryColor('greenBright'),
     yw  : tryColor('yellow'),
