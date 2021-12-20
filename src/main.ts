@@ -5,7 +5,6 @@ import { existsSync, mkdirSync, writeFileSync } from "fs";
 import { color as c } from "./lib/colors";
 import { CLI } from "./lib/cli";
 import { GIT } from "./lib/git";
-import { toFileNameWithDate } from "./lib/utilities";
 import { ExecException } from "child_process";
 import { resolve, sep } from "path";
 import { Logger } from "./lib/logger";
@@ -75,7 +74,11 @@ function checkForLogException(err: ExecException|null, out: string) {
 
 
 function writePrettyLog(log: string) {
-  const filePath = resolve(`./docs/${toFileNameWithDate(CLI.Args.getFilename())}.md`);
+  const filename         = CLI.Args.getFilename();
+  const date             = new Date().toLocaleDateString().replace(/\//g, '_');
+  const fileNameWithDate = filename.replace(/ /g, '') + `.${date}`;
+  const filePath         = resolve(`./docs/${fileNameWithDate}.md`);
+
   writeFileSync(filePath, log);
   return filePath;
 }
