@@ -9,7 +9,8 @@ export function toMdBullet(str: string) {
 }
 
 export function toBlockquote(str: string) {
-  return `> ${str}`;
+  const newStr = str.replace(/\n/g, ' '); // Let lines break naturally
+  return `> ${newStr}`;
 }
 
 export function toMdURL(str: string, url: null|string) {
